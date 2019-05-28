@@ -30,6 +30,7 @@
             "ImageUploader\\Tests\\": "tests"
         }
     },
+    "version": "v1.0.0", 
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
