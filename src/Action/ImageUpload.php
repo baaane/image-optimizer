@@ -37,7 +37,7 @@ class ImageUpload
 	 */
 	public function upload($data, $name = [])
 	{	
-		if(!empty($name)){
+		if(!empty($name) || !(isset($name))){
 			$name = ['new_name' => $name];
 			$data = array_merge($data, $name);
 		}
@@ -49,9 +49,11 @@ class ImageUpload
 		}
 
 		$upload = new UploadController($this->filePath);
-		for ($i=0; $i < count($data_array); $i++) { 
-			$data_result = $upload->handle($data_array[$i]);
-			$result[] = $this->resize($data_result);
+		for ($i=0; $i < count($data_array); $i++) {
+			if($data_array[$i]['error'] == 0){
+				$data_result = $upload->handle($data_array[$i]);
+				$result[] = $this->resize($data_result);
+			}
 		}
 		
 		return $result;
