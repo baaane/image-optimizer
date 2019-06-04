@@ -23,26 +23,30 @@ class UploadController
      * @param string $name
      * @return array $data
      */
-    public function handle($name, $file = 'filename')
+    public function handle($data)
     {
-    	$name = (isset($name) ? $name : uniqid());
-    	$ext = '.'.pathinfo($_FILES[$file]['name'], PATHINFO_EXTENSION);
+    	$name = (isset($data['new_name']) ? $data['new_name'] : uniqid());
+    	$ext = '.'.pathinfo($data['name'], PATHINFO_EXTENSION);
 
-        if(empty($_FILES[$file]) || !$this->check_file($_FILES[$file]['tmp_name'])){
-        	return FALSE;
+        if(empty($data) || !$this->check_file($data['tmp_name'])){
+            throw new Exception('No file exists!');
         }
 
-        $data = [
-        	'name' => $name.$ext,
-        	'type' => $_FILES[$file]['type'],
-        	'tmp_name' =>  $_FILES[$file]['tmp_name'],
-        	'error' => $_FILES[$file]['error'],
-        	'size'	=> $_FILES[$file]['size'],
-        	'path' => $this->filePath
-        ];
+        try{
+            $data_result = [
+                'name' => $name.$ext,
+                'type' => $data['type'],
+                'tmp_name' => $data['tmp_name'],
+                'error' =>$data['error'],
+                'size'  =>$data['size'],
+                'path' => $this->filePath
+            ];
+            
+            return $data_result;
         
-        return $data;
-        
+        } catch (Exception $e) {
+            return $e;
+        }
     }
 
     /**
@@ -65,6 +69,11 @@ class UploadController
     public function upload($filename, $destination)
     {
     	return copy($filename, $destination);
+    }
+
+    public function file_type()
+    {
+
     }
 }
 

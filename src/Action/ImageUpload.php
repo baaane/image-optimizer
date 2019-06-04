@@ -2,12 +2,12 @@
 
 namespace Library\ImageUploader;
 
+use Exception;
 use Library\ImageUploader\UploadController;
 use Library\ImageUploader\ImageActionInterface;
 use Library\ImageUploader\ThumbnailImageController;
 use Library\ImageUploader\MobileImageController;
 use Library\ImageUploader\DesktopImageController;
-use Spatie\ImageOptimizer\OptimizerChainFactory;
 
 class ImageUpload
 {
@@ -35,12 +35,26 @@ class ImageUpload
 	 * @param string $name
 	 *
 	 */
-	public function upload($name = NULL)
-	{
+	public function upload($data, $name = [])
+	{	
+		if(!empty($name)){
+			$name = ['new_name' => $name];
+			$data = array_merge($data, $name);
+		}
+
+		$data_array = $this->reArrayFiles($data);
+
+		if(count($data_array) === 0){
+			throw new Exception('No data exists!');
+		}
+
 		$upload = new UploadController($this->filePath);
-		$data = $upload->handle($name);
+		for ($i=0; $i < count($data_array); $i++) { 
+			$data_result = $upload->handle($data_array[$i]);
+			$result[] = $this->resize($data_result);
+		}
 		
-		return $this->resize($data);
+		return $result;
 	}
 
 	/**
@@ -53,26 +67,17 @@ class ImageUpload
 	 */
 	public function resize($data)
 	{
-		$path = $data['path'];
-        $image_name = $data['name'];
-        $tmp_name = $data['tmp_name'];
-
-		$image_info = $this->getImageInfo($data);
-
 		//thumbnail
-		$thumbnailController = new ThumbnailImageController($image_info);
-		$new_image = $thumbnailController->action();
-		$thumbnail = $this->createImage($new_image, $tmp_name, $path.'thumbnail_'.$image_name);
+		$thumbnailController = new ThumbnailImageController($data);
+		$thumbnail = $thumbnailController->action();
 		
 		//mobile
-		$mobileController = new MobileImageController($image_info);
-		$new_image = $mobileController->action();
-		$mobile = $this->createImage($new_image, $tmp_name, $path.'mobile_'.$image_name);
+		$mobileController = new MobileImageController($data);
+		$mobile = $mobileController->action();
 
 		//desktop
-		$desktopController = new DesktopImageController($image_info);
-		$new_image = $desktopController->action();
-		$desktop = $this->createImage($new_image, $tmp_name, $path.'desktop_'.$image_name);
+		$desktopController = new DesktopImageController($data);
+		$desktop = $desktopController->action();
 
 		$data = [
 			'thumbnail' => $thumbnail,
@@ -84,76 +89,24 @@ class ImageUpload
 	}
 
 	/**
-	 * Get the image information
-	 * Thumbnail|Mobile|Desktop	 
+	 * Re-arrange the array	
 	 *
 	 * @param array $data
 	 * @return array $data
 	 *
 	 */
-	public function getImageInfo($data)
-	{
-		$type = mime_content_type($data['tmp_name']);
-		switch(strtolower($type))
-		{
-	        case 'image/jpeg':
-	                $data = imagecreatefromjpeg($data['tmp_name']);
-	                break;
-	        case 'image/png':
-	                $data = imagecreatefrompng($data['tmp_name']);
-	                break;
-	        case 'image/gif':
-	                $data = imagecreatefromgif($data['tmp_name']);
-	                break;
-	        default:
-	                exit('Unsupported type: '.$data['tmp_name']);
-		}
-		return $data;
-	}
-	
-	/**
-	 * Creating new image according to different size 
-	 * Thumbnail|Mobile|Desktop
-	 *
-	 * @param array $data
-	 * @return array $data
-	 *
-	 */
-	public function createImage($new, $name, $final)
-	{
-		$type = mime_content_type($name);
-		switch(strtolower($type))
-		{
-	        case 'image/jpeg':
-	                imagejpeg($new, $final);
-	                $this->image_optimization($final);
-	                $data = rtrim($final);
-	                break;
-	        case 'image/png':
-	                imagepng($new, $final);
-	                $this->image_optimization($final);
-	                $data = rtrim($final);
-	                break;
-	        case 'image/gif':
-	                imagegif($new, $final);
-	                $this->image_optimization($final);
-	                $data = rtrim($final);
-	                break;
-	        default:
-	                exit('Unsupported type: '.$type);
-		}
 
-		return $data;
-	}
+	public function reArrayFiles(&$data_array) {
 
-	/**
-     * Optimize the file
-     *
-     * @param string $filename with path
-     */
-	public function image_optimization($filename)
-	{
-		$optimizerChain = OptimizerChainFactory::create();
-		$optimizerChain->optimize($filename);
+    	$data = [];
+	    $file_count = count($data_array['name']);
+	    $file_keys = array_keys($data_array);
+
+	    for ($i=0; $i<$file_count; $i++) {
+	        foreach ($file_keys as $key => $value) {
+	            $data[$i][$value] = $data_array[$value][$i];
+	        }
+	    }
+	    return $data;
 	}
 }

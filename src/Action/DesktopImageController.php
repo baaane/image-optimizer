@@ -2,17 +2,22 @@
 
 namespace Library\ImageUploader;
 
+use Library\ImageUploader\ImageTrait;
 use Library\ImageUploader\ImageActionInterface;
-use Spatie\ImageOptimizer\OptimizerChainFactory;
 
 class DesktopImageController implements ImageActionInterface
 {
+	use ImageTrait;
+
 	/**
      * @param array $data
      */
 	public function __construct($data)
 	{
 		$this->data = $data;
+		$this->name = $data['name'];
+		$this->tmp_name = $data['tmp_name'];
+		$this->path = $data['path'];
 	}
 
 	/**
@@ -22,7 +27,16 @@ class DesktopImageController implements ImageActionInterface
      */
 	public function action()
 	{
-		return $this->createSize($this->data);
+		$image_info = $this->getImageInfo($this->data);
+		$new_image = $this->createSize($image_info);
+		$final_image = $this->path.'desktop_'.$this->name;
+		$data = $this->createImage($new_image, $this->tmp_name, $final_image);
+
+		// Destroy resources
+		imagedestroy($image_info);
+		imagedestroy($new_image);
+		
+		return $data;
 	}
 
 	/**
@@ -46,9 +60,7 @@ class DesktopImageController implements ImageActionInterface
 		$new = imagecreatetruecolor($new_width, $new_height);
 
 		// Resample old into new
-		imagecopyresampled($new, $image, 
-		        0, 0, 0, 0, 
-		        $new_width, $new_height, $old_width, $old_height);
+		imagecopyresampled($new, $image, 0, 0, 0, 0, $new_width, $new_height, $old_width, $old_height);
 
 		return $new;
 	}
