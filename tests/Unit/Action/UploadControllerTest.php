@@ -12,7 +12,7 @@ class UploadControllerTest extends TestCase
     {
     	parent::setUp();
     	
-    	$this->directory = __DIR__. '/_files';
+    	$this->directory = __DIR__. '/_files/';
 
         $_FILES = array(
             'filename' => array(
@@ -32,7 +32,7 @@ class UploadControllerTest extends TestCase
      */
     public function it_should_list_file_info()
     {   
-        $data[] = $this->mocked_upload->handle($_FILES['filename']);
+        $data = $this->mocked_upload->handle($_FILES['filename']);
         $result = new \stdClass();
         $result = json_decode(json_encode($data));
 

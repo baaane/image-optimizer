@@ -70,11 +70,6 @@ class UploadController
     {
     	return copy($filename, $destination);
     }
-
-    public function file_type()
-    {
-
-    }
 }
 
 

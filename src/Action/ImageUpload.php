@@ -35,23 +35,16 @@ class ImageUpload
 	 * @param string $name
 	 *
 	 */
-	public function upload($data, $name = [])
+	public function upload($data)
 	{	
-		if(!empty($name)){
-			$name = ['new_name' => $name];
-			$data = array_merge($data, $name);
-		}
-
 		$data_array = $this->reArrayFiles($data);
-
-		if(count($data_array) === 0){
-			throw new Exception('No data exists!');
-		}
 
 		$upload = new UploadController($this->filePath);
 		for ($i=0; $i < count($data_array); $i++) { 
-			$data_result = $upload->handle($data_array[$i]);
-			$result[] = $this->resize($data_result);
+			if($data_array[$i]['error'] === 0){
+				$data_result = $upload->handle($data_array[$i]);
+				$result[] = $this->resize($data_result);
+			}
 		}
 		
 		return $result;
@@ -82,7 +75,7 @@ class ImageUpload
 		$data = [
 			'thumbnail' => $thumbnail,
 			'mobile'	=> $mobile,
-			'deskctop'	=> $desktop
+			'desktop'	=> $desktop
 		];
 
 		return $data;
