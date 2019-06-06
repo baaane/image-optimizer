@@ -32,7 +32,9 @@ class ImageUploadGenerator
 
 	/**
 	 * Upload the image
-	 * @param string $name
+	 *
+	 * @param array $data
+	 * @return array
 	 *
 	 */
 	public function upload(array $data)
@@ -55,7 +57,7 @@ class ImageUploadGenerator
 	 * Thumbnail|Mobile|Desktop	
 	 *
 	 * @param array $data
-	 * @return array $data
+	 * @return array
 	 *
 	 */
 	public function resize(array $data)
@@ -85,7 +87,7 @@ class ImageUploadGenerator
 	 * Re-arrange the array	
 	 *
 	 * @param array $data
-	 * @return array $data
+	 * @return array
 	 *
 	 */
 	public function reArrayFiles(&$data_array)

@@ -42,7 +42,7 @@ class DesktopImageSize implements ImageActionInterface
 	/**
      * Creating new size
      *
-     * @return array $data
+     * @param array $image
      */
 	public function createSize($image)
 	{

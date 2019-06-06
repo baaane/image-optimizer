@@ -11,7 +11,7 @@ trait ImageTrait
 	 * Thumbnail|Mobile|Desktop	 
 	 *
 	 * @param array $data
-	 * @return array $data
+	 * @return array
 	 *
 	 */
 	public function getImageInfo($data)
@@ -38,8 +38,10 @@ trait ImageTrait
 	 * Creating new image according to different size 
 	 * Thumbnail|Mobile|Desktop
 	 *
-	 * @param array $data
-	 * @return array $data
+	 * @param string $new
+	 * @param string $name
+	 * @param string $final
+	 * @return array
 	 *
 	 */
 	public function createImage($new, $name, $final)

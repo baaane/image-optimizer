@@ -130,7 +130,7 @@ Array
 Here are some real life example conversions done by this package.
 
 ### Original: 
-##### JPEG 272KB
+##### 1920 x 1080 | JPEG | 272KB
 ![Original](https://github.com/baaane/image-uploader/blob/master/storage/app/public/test.jpg?raw=true)
 
 ### Optimized and Converted to Desktop | Mobile | Thumbnail: 

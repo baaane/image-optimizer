@@ -34,8 +34,8 @@ class Upload
     /**
      * Handle file
      *
-     * @param string $name
-     * @return array $data
+     * @param array $data 
+     * @return array
      */
     public function handle(array $data)
     {

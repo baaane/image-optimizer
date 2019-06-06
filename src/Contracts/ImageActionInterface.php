@@ -7,7 +7,7 @@ interface ImageActionInterface
 	/**
 	 * Action for resize image
 	 *
-	 * return string
+	 * @return string
 	 */
 	public function action();
 }
