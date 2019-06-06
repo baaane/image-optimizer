@@ -12,23 +12,25 @@ class Upload
      * @param string $filePath
      */
     public function __construct($filePath)
-    {
-        $defaultPath =  dirname($_SERVER['DOCUMENT_ROOT']).'/storage/app/public/';
-
-        if(!is_dir($defaultPath)){
-            mkdir($defaultPath, 0775, true);
-            chown($defaultPath, 'www-data');
-            chmod($defaultPath, 0755 );
+    {   
+        if(isset($filePath)){
+            if(!is_dir($filePath)){
+                mkdir($filePath, 0775, true);
+                chown($filePath, 'www-data');
+                chmod($filePath, 0755 );
+            }
+            $path = $filePath;        
+        }else{
+            $defaultPath = dirname($_SERVER['DOCUMENT_ROOT']).'/storage/app/public/';
+            if(!is_dir($defaultPath)){
+                mkdir($defaultPath, 0775, true);
+                chown($defaultPath, 'www-data');
+                chmod($defaultPath, 0755 );
+            }
+            $path = $defaultPath;
         }
 
-        if(!is_dir($filePath)){
-            mkdir($filePath, 0775, true);
-            chown($filePath, 'www-data');
-            chmod($filePath, 0755 );
-        }
-
-    	$filePath = (isset($filePath) ? $filePath : $defaultPath);
-        $this->filePath = rtrim($filePath);
+        $this->filePath = $path;
     }
 
     /**

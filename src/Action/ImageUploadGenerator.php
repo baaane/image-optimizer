@@ -40,12 +40,22 @@ class ImageUploadGenerator
 	public function upload(array $data)
 	{	
 		$data_array = $this->reArrayFiles($data);		
-
 		$upload = new Upload($this->filePath);
-		for ($i=0; $i < count($data_array); $i++) { 
+
+		for ($i=0; $i < count($data_array); $i++) {
+			if($data_array[$i]['error'] === 1){
+				$result[] = 'The uploaded file exceeds the upload_max_filesize in php.ini!';
+			}
+
+			if($data_array[$i]['error'] === 2){
+				$result[] = 'The uploaded file exceeds the MAX_FILE_SIZE!';
+			}
+
 			if($data_array[$i]['error'] === 0){
-				$data_result = $upload->handle($data_array[$i]);
-				$result[] = $this->resize($data_result);
+				if($this->checkImageType($data_array[$i])){
+					$data_result = $upload->handle($data_array[$i]);
+					$result[] = $this->resize($data_result);
+				}
 			}
 		}
 		
@@ -107,5 +117,32 @@ class ImageUploadGenerator
 	    }
 
 	    return $data;
+	}
+
+	/**
+	 * Validate image
+	 *
+	 * @param array $data
+	 * @return boolean
+	 *
+	 */
+	public function checkImageType($data)
+	{
+		$allowed_ext = [
+			'jpeg',
+			'jpg',
+			'png',
+			'gif'
+		];
+
+		// Get image file extension
+    	$file_extension = strtolower(pathinfo($data['name'], PATHINFO_EXTENSION));
+
+    	// Validate file input to check if is with valid extension
+		if(!in_array($file_extension, $allowed_ext)){
+			throw new Exception('Upload valid image. Only JPEG, PNG and GIF are allowed!');
+		}
+
+		return TRUE;
 	}
 }

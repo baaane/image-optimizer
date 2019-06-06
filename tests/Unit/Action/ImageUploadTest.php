@@ -63,6 +63,26 @@ class ImageUploadTest extends TestCase
         $this->assertTrue(count($data) > 0);
     }
 
+    /**
+     * @test
+     */
+    public function it_should_validate_image()
+    {   
+        $_POST['new_name'] = [
+            'new_name' => 'new_name1'
+        ];
+
+        $data_merge = array_merge($_FILES['filename'], $_POST['new_name']);
+
+        $data_reArray = $this->mocked_upload->reArrayFiles($data_merge);
+
+        for ($i=0; $i < count($data_reArray); $i++) { 
+            $data[] = $this->mocked_upload->checkImageType($data_reArray[$i]);
+        }
+        
+        $this->assertTrue($data[0]);
+    }
+
    	/**
 	 * will remove the uploaded images
 	 */
