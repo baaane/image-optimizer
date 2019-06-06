@@ -1,5 +1,3 @@
-# image-uploader
-
 This package can generate different size of optimized images (Thumbnail-Mobile-Desktop). Here's how you can use it:
 
 ```php
@@ -10,7 +8,7 @@ $imageUploader = new ImageUploadGenerator();
 $imageUploader->upload($_FILES['filename']);
 ```
 
-# Installation
+## Installation
 You can install the package via github or composer
 
 ```php
@@ -18,7 +16,7 @@ git clone https://github.com/baaane/image-uploader.git
 
 composer require baaaaane/image-uploader
 ```
-### Tools
+## Tools
 This package is required in this library to optimize the image:
 
 - [image-optimizer](https://github.com/spatie/image-optimizer)
@@ -28,7 +26,7 @@ Here's how to install via composer:
 composer require spatie/image-optimizer
 ```
 
-# Instructions
+## Instructions
 The filenames can be randomized or customizable by the user. Parameter for upload should be an array. It should look like this:
 
 #### Sample expected input
@@ -62,45 +60,41 @@ $imageUploader->upload($data);
 #### Sample output after merge
 ```php
 // Single upload file
-$_FILES = [
-    'filename' => [
-        'name' => 'uploaded-image.jpg',
-        'type' => 'image/jpeg',
-        'size' => 542,
-        'tmp_name' =>	__DIR__. '/_files/test.jpg',
-        'error' => 0,
-        'new_name' => 'new_name1'
-    ]
+[
+    'name' => 'uploaded-image.jpg',
+    'type' => 'image/jpeg',
+    'size' => 542,
+    'tmp_name' =>	__DIR__. '/_files/test.jpg',
+    'error' => 0,
+    'new_name' => 'new_name1'
 ];
 
 // multiple upload file
-$_FILES = [
-	'filename' => [
-        'name' => [
-        	0 => 'uploaded-image.jpg',
-        	1 => 'uploaded-image1.jpg',
-        ],
-        'type' => [
-        	0 => 'image/jpeg',
-        	1 => 'image/jpeg',
-        ],
-        'size' => [
-        	0 => 542,
-        	1 => 542,
-        ],
-        'tmp_name' => [
-        	0 => __DIR__. '/_files/test.jpg',
-        	1 => __DIR__. '/_files/test1.jpg',
-        ],
-        'error' => [
-        	0 => 0,
-        	1 => 0,
-       	],
-       	'new_name' => [
-       		0 => 'new_name1',
-        	1 => 'new_name2',
-       	]
-    ]
+[
+    'name' => [
+    	0 => 'uploaded-image.jpg',
+    	1 => 'uploaded-image1.jpg',
+    ],
+    'type' => [
+    	0 => 'image/jpeg',
+    	1 => 'image/jpeg',
+    ],
+    'size' => [
+    	0 => 542,
+    	1 => 542,
+    ],
+    'tmp_name' => [
+    	0 => __DIR__. '/_files/test.jpg',
+    	1 => __DIR__. '/_files/test1.jpg',
+    ],
+    'error' => [
+    	0 => 0,
+    	1 => 0,
+   	],
+   	'new_name' => [
+   		0 => 'new_name1',
+    	1 => 'new_name2',
+   	]
 ];
 ```
 
@@ -131,7 +125,7 @@ Array
   )
 )
 ```
-# Example conversions
+## Example conversions
 Here are some real life example conversions done by this package.
 
 ### Original: 
@@ -148,9 +142,9 @@ Here are some real life example conversions done by this package.
 ##### Thumbnail 300x300 | JPEG | 14KB
 ![Optimized](https://github.com/baaane/image-uploader/blob/master/storage/app/public/thumbnail_new_name1.jpg?raw=true)
 
-# Credits
+## Credits
 - [Spatie](https://github.com/spatie)
 This package has been inspired by [spatie/image-optimizer](https://github.com/spatie/image-optimizer)
 
-# License
+## License
 The MIT License (MIT). Please see [License File](https://github.com/baaane/image-uploader/blob/master/LICENSE) for more information.
