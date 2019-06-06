@@ -1,3 +1,4 @@
+# Image Uploader
 This package can generate different size of optimized images (Thumbnail-Mobile-Desktop). Here's how you can use it:
 
 ```php
