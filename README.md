@@ -28,7 +28,7 @@ composer require spatie/image-optimizer
 ```
 
 ## Instructions
-The filenames can be randomized or customizable by the user. Parameter for upload should be an array. It should look like this:
+The filenames can be randomized or customized by the user. Parameter for upload should be an array. It should look like this:
 
 #### Sample expected input
 ```php
@@ -127,7 +127,7 @@ Array
 )
 ```
 ## Example conversions
-Here are some real life example conversions done by this package.
+Here are the example conversions done by this package.
 
 ### Original: 
 ##### 1920 x 1080 | JPEG | 272KB
