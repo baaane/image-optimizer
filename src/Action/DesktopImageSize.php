@@ -1,11 +1,11 @@
 <?php
 
-namespace Library\ImageUploader;
+namespace Library\Baaane\ImageUploader\Action;
 
-use Library\ImageUploader\ImageTrait;
-use Library\ImageUploader\ImageActionInterface;
+use Library\Baaane\ImageUploader\Traits\ImageTrait;
+use Library\Baaane\ImageUploader\Contracts\ImageActionInterface;
 
-class DesktopImageController implements ImageActionInterface
+class DesktopImageSize implements ImageActionInterface
 {
 	use ImageTrait;
 

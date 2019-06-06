@@ -1,6 +1,6 @@
 <?php
 
-namespace Library\ImageUploader;
+namespace Library\Baaane\ImageUploader\Contracts;
 
 interface ImageActionInterface
 {

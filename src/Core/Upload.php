@@ -1,10 +1,10 @@
 <?php
 
-namespace Library\ImageUploader;
+namespace Library\Baaane\ImageUploader\Core;
 
 use Exception;
 
-class UploadController
+class Upload
 {
     /**
      * File path

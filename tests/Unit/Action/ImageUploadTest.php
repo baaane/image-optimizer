@@ -2,9 +2,7 @@
 
 use Tests\TestCase;
 use \Mockery as Mockery;
-use Library\ImageUploader\ImageUpload;
-use Library\ImageUploader\ImageOptimization;
-use Spatie\ImageOptimizer\OptimizerChainFactory;
+use Library\Baaane\ImageUploader\Action\ImageUploadGenerator;
 
 class ImageUploadTest extends TestCase
 {	
@@ -14,36 +12,17 @@ class ImageUploadTest extends TestCase
     	
     	$this->directory = __DIR__. '/_files/';
 
-        $_FILES = [
-        	'filename' => [
-                'name' => [
-                	0 => 'uploaded-image.jpg',
-                	1 => 'uploaded-image1.jpg',
-                ],
-                'type' => [
-                	0 => 'image/jpeg',
-                	1 => 'image/jpeg',
-                ],
-                'size' => [
-                	0 => 542,
-                	1 => 542,
-                ],
-                'tmp_name' => [
-                	0 => __DIR__. '/_files/test.jpg',
-                	1 => __DIR__. '/_files/test1.jpg',
-                ],
-                'error' => [
-                	0 => 0,
-                	1 => 0,
-               	],
-               	'new_name' => [
-               		0 => 'uploaded-image',
-                	1 => 'uploaded-image1',
-               	]
-       		]
-        ];
+$_FILES = [
+    'filename' => [
+        'name' => 'uploaded-image.jpg',
+        'type' => 'image/jpeg',
+        'size' => 542,
+        'tmp_name' =>   __DIR__. '/_files/test.jpg',
+        'error' => 0,
+    ]
+];
 
-	    $this->mocked_upload = Mockery::mock(new ImageUpload($this->directory));
+	    $this->mocked_upload = Mockery::mock(new ImageUploadGenerator($this->directory));
     }
 
     /**
@@ -52,7 +31,7 @@ class ImageUploadTest extends TestCase
     public function it_should_upload_and_resize_image()
     {   
         $data = $this->mocked_upload->upload($_FILES['filename']);
-        
+
         for ($i=0; $i < count($data); $i++) { 
         	@unlink($data[$i]['thumbnail']);
         	@unlink($data[$i]['mobile']);
@@ -67,13 +46,19 @@ class ImageUploadTest extends TestCase
      */
     public function it_should_rename_upload_resize_image()
     {   
-        $data = $this->mocked_upload->upload($_FILES['filename']);
-        
-        for ($i=0; $i < count($data); $i++) { 
-        	@unlink($data[$i]['thumbnail']);
-        	@unlink($data[$i]['mobile']);
-        	@unlink($data[$i]['desktop']);
-        }
+        $_POST = [ 
+            'new_name' => 'new_name1'
+        ];
+
+        $data_merge = array_merge($_FILES['filename'], $_POST);
+
+        $data = $this->mocked_upload->upload($data_merge);
+
+        // for ($i=0; $i < count($data); $i++) { 
+        // 	@unlink($data[$i]['thumbnail']);
+        // 	@unlink($data[$i]['mobile']);
+        // 	@unlink($data[$i]['desktop']);
+        // }
 
         $this->assertTrue(count($data) > 0);
     }

@@ -24,12 +24,12 @@
     },
     "autoload": {
         "psr-4": {
-            "ImageUploader\\": "src"
+            "Baaane\\ImageUploader\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ImageUploader\\Tests\\": "tests"
+            "Baaane\\ImageUploader\\Tests\\": "tests"
         }
     },
     "version": "v1.0.0", 

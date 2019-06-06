@@ -1,6 +1,6 @@
 <?php
 
-namespace Library\ImageUploader;
+namespace Library\Baaane\ImageUploader\Traits;
 
 use Spatie\ImageOptimizer\OptimizerChainFactory;
 
@@ -48,7 +48,7 @@ trait ImageTrait
 		switch(strtolower($type))
 		{
 	        case 'image/jpeg':
-	                imagejpeg($new, $final);
+	                imagejpeg($new, $final, 100);
 	                $this->image_optimization($final);
 	                $data = rtrim($final);
 	                break;

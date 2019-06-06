@@ -1,11 +1,11 @@
 <?php
 
-namespace Library\ImageUploader;
+namespace Library\Baaane\ImageUploader\Action;
 
-use Library\ImageUploader\ImageTrait;
-use Library\ImageUploader\ImageActionInterface;
+use Library\Baaane\ImageUploader\Traits\ImageTrait;
+use Library\Baaane\ImageUploader\Contracts\ImageActionInterface;
 
-class ThumbnailImageController implements ImageActionInterface
+class MobileImageSize implements ImageActionInterface
 {
 	use ImageTrait;
 
@@ -29,13 +29,13 @@ class ThumbnailImageController implements ImageActionInterface
 	{
 		$image_info = $this->getImageInfo($this->data);
 		$new_image = $this->createSize($image_info);
-		$final_image = $this->path.'thumbnail_'.$this->name;
+		$final_image = $this->path.'mobile_'.$this->name;
 		$data = $this->createImage($new_image, $this->tmp_name, $final_image);
 
 		// Destroy resources
 		imagedestroy($image_info);
 		imagedestroy($new_image);
-		
+
 		return $data;
 	}
 
@@ -46,8 +46,8 @@ class ThumbnailImageController implements ImageActionInterface
      */
 	public function createSize($image)
 	{
-		$max_width = 300;
-		$max_height = 300;
+		$max_width = 690;
+		$max_height = 960;
 
 		// Calculate new dimensions
 		$old_width      = imagesx($image);

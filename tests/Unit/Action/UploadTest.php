@@ -2,11 +2,9 @@
 
 use Tests\TestCase;
 use \Mockery as Mockery;
-use Library\ImageUploader\UploadController;
-use Library\ImageUploader\ImageOptimization;
-use Spatie\ImageOptimizer\OptimizerChainFactory;
+use Library\Baaane\ImageUploader\Core\Upload;
 
-class UploadControllerTest extends TestCase
+class UploadTest extends TestCase
 {	
 	public function setUp(): void
     {
@@ -14,17 +12,20 @@ class UploadControllerTest extends TestCase
     	
     	$this->directory = __DIR__. '/_files/';
 
-        $_FILES = array(
-            'filename' => array(
+        $_FILES = [
+            'filename' => [
+                
                 'name' => 'uploaded-image.jpg',
                 'type' => 'image/jpeg',
                 'size' => 542,
-                'tmp_name' =>	__DIR__. '/_files/test.jpg',
-                'error' => 0
-            )
-        );
+                'tmp_name' =>   __DIR__. '/_files/test.jpg',
+                'error' => 0,
+                'new_name' => 'new_name1'
+            
+            ]
+        ];
 
-	    $this->mocked_upload = Mockery::mock(new UploadController($this->directory));
+	    $this->mocked_upload = Mockery::mock(new Upload($this->directory));
     }
 
     /**
@@ -34,7 +35,7 @@ class UploadControllerTest extends TestCase
     {   
         $data = $this->mocked_upload->handle($_FILES['filename']);
         $result = new \stdClass();
-        $result = json_decode(json_encode($data));
+        $result = json_decode(json_encode([$data]));
 
         $this->assertObjectHasAttribute('name', $result[0]);
         $this->assertObjectHasAttribute('type', $result[0]);
@@ -53,7 +54,7 @@ class UploadControllerTest extends TestCase
 		$result = $this->mocked_upload->upload($data['tmp_name'], $data['path'].'/'.$data['name']);
 
 		$this->assertTrue($result);
-		@unlink($data['path'].'/'.$data['name']);
+		// @unlink($data['path'].'/'.$data['name']);
 	}
 
     /**

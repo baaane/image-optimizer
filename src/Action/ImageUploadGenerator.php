@@ -1,15 +1,15 @@
 <?php
 
-namespace Library\ImageUploader;
+namespace Library\Baaane\ImageUploader\Action;
 
 use Exception;
-use Library\ImageUploader\UploadController;
-use Library\ImageUploader\ImageActionInterface;
-use Library\ImageUploader\ThumbnailImageController;
-use Library\ImageUploader\MobileImageController;
-use Library\ImageUploader\DesktopImageController;
+use Library\Baaane\ImageUploader\Core\Upload;
+use Library\Baaane\ImageUploader\Contracts\ImageActionInterface;
+use Library\Baaane\ImageUploader\Action\ThumbnailImageSize;
+use Library\Baaane\ImageUploader\Action\MobileImageSize;
+use Library\Baaane\ImageUploader\Action\DesktopImageSize;
 
-class ImageUpload
+class ImageUploadGenerator
 {
     /**
      * File path
@@ -35,11 +35,11 @@ class ImageUpload
 	 * @param string $name
 	 *
 	 */
-	public function upload($data)
+	public function upload(array $data)
 	{	
-		$data_array = $this->reArrayFiles($data);
+		$data_array = $this->reArrayFiles($data);		
 
-		$upload = new UploadController($this->filePath);
+		$upload = new Upload($this->filePath);
 		for ($i=0; $i < count($data_array); $i++) { 
 			if($data_array[$i]['error'] === 0){
 				$data_result = $upload->handle($data_array[$i]);
@@ -61,15 +61,15 @@ class ImageUpload
 	public function resize($data)
 	{
 		//thumbnail
-		$thumbnailController = new ThumbnailImageController($data);
+		$thumbnailController = new ThumbnailImageSize($data);
 		$thumbnail = $thumbnailController->action();
 		
 		//mobile
-		$mobileController = new MobileImageController($data);
+		$mobileController = new MobileImageSize($data);
 		$mobile = $mobileController->action();
 
 		//desktop
-		$desktopController = new DesktopImageController($data);
+		$desktopController = new DesktopImageSize($data);
 		$desktop = $desktopController->action();
 
 		$data = [
@@ -88,8 +88,11 @@ class ImageUpload
 	 * @return array $data
 	 *
 	 */
-
-	public function reArrayFiles(&$data_array) {
+	public function reArrayFiles(&$data_array) : ?array
+	{
+		if(!is_array($data_array['name'])){
+			return $data = array($data_array);
+		}
 
     	$data = [];
 	    $file_count = count($data_array['name']);
@@ -100,6 +103,7 @@ class ImageUpload
 	            $data[$i][$value] = $data_array[$value][$i];
 	        }
 	    }
+
 	    return $data;
 	}
 }
