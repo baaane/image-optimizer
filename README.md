@@ -20,9 +20,12 @@ git clone https://github.com/baaane/image-uploader.git
 
 composer require baaaaane/image-uploader
 ```
-### Tools for Optimization
-The package required this library to optimize the image. Here's how to install via compose:
+### Tools
+The package required this library to optimize the image. 
 
+- [image-optimizer](https://github.com/spatie/image-optimizer)
+
+Here's how to install via compose:
 ```php
 composer require spatie/image-optimizer
 ```
@@ -126,14 +129,23 @@ Array
 ## Example conversions
 Here are some real life example conversions done by this package.
 
-### Original: JPEG 272KB
+### Original: 
+##### JPEG 272KB
 ![Original](https://github.com/baaane/image-uploader/blob/master/storage/app/public/test.jpg?raw=true)
 
-### Optimzed: DESKTOP 1920 x 1080 | JPEG | 218KB
-![Original](https://github.com/baaane/image-uploader/blob/master/storage/app/public/desktop_new_name1.jpg?raw=true)
+### Optimized: 
+##### Desktop 1920 x 1080 | JPEG | 218KB
+![Optimized](https://github.com/baaane/image-uploader/blob/master/storage/app/public/desktop_new_name1.jpg?raw=true)
 
-### Optimzed: MOBILE 690 x 960 | JPEG | 50KB
-![Original](https://github.com/baaane/image-uploader/blob/master/storage/app/public/mobile_new_name1.jpg?raw=true)
+##### Mobile 690 x 960 | JPEG | 50KB
+![Optimized](https://github.com/baaane/image-uploader/blob/master/storage/app/public/mobile_new_name1.jpg?raw=true)
 
-### Optimzed: THUMBNAIL 300x300 | JPEG | 14KB
-![Original](https://github.com/baaane/image-uploader/blob/master/storage/app/public/thumbnail_new_name1.jpg?raw=true)
+##### Thumbnail 300x300 | JPEG | 14KB
+![Optimized](https://github.com/baaane/image-uploader/blob/master/storage/app/public/thumbnail_new_name1.jpg?raw=true)
+
+# Credits
+- [Spatie](https://github.com/spatie)
+This package has been inspired by [spatie/image-optimizer](https://github.com/spatie/image-optimizer)
+
+# License
+The MIT License (MIT). Please see [License File](https://github.com/baaane/image-uploader/blob/master/LICENSE) for more information.
