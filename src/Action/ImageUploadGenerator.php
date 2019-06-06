@@ -58,7 +58,7 @@ class ImageUploadGenerator
 	 * @return array $data
 	 *
 	 */
-	public function resize($data)
+	public function resize(array $data)
 	{
 		//thumbnail
 		$thumbnailController = new ThumbnailImageSize($data);
@@ -88,7 +88,7 @@ class ImageUploadGenerator
 	 * @return array $data
 	 *
 	 */
-	public function reArrayFiles(&$data_array) : ?array
+	public function reArrayFiles(&$data_array)
 	{
 		if(!is_array($data_array['name'])){
 			return $data = array($data_array);

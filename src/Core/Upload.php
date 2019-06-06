@@ -13,7 +13,21 @@ class Upload
      */
     public function __construct($filePath)
     {
-    	$filePath = (isset($filePath) ? $filePath : storage_path('app/public/'));
+        $defaultPath =  dirname($_SERVER['DOCUMENT_ROOT']).'/storage/app/public/';
+
+        if(!is_dir($defaultPath)){
+            mkdir($defaultPath, 0775, true);
+            chown($defaultPath, 'www-data');
+            chmod($defaultPath, 0755 );
+        }
+
+        if(!is_dir($filePath)){
+            mkdir($filePath, 0775, true);
+            chown($filePath, 'www-data');
+            chmod($filePath, 0755 );
+        }
+
+    	$filePath = (isset($filePath) ? $filePath : $defaultPath);
         $this->filePath = rtrim($filePath);
     }
 
@@ -23,7 +37,7 @@ class Upload
      * @param string $name
      * @return array $data
      */
-    public function handle($data)
+    public function handle(array $data)
     {
     	$name = (isset($data['new_name']) ? $data['new_name'] : uniqid());
     	$ext = '.'.pathinfo($data['name'], PATHINFO_EXTENSION);

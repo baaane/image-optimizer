@@ -14,14 +14,12 @@ class UploadTest extends TestCase
 
         $_FILES = [
             'filename' => [
-                
                 'name' => 'uploaded-image.jpg',
                 'type' => 'image/jpeg',
                 'size' => 542,
                 'tmp_name' =>   __DIR__. '/_files/test.jpg',
                 'error' => 0,
                 'new_name' => 'new_name1'
-            
             ]
         ];
 
@@ -54,7 +52,7 @@ class UploadTest extends TestCase
 		$result = $this->mocked_upload->upload($data['tmp_name'], $data['path'].'/'.$data['name']);
 
 		$this->assertTrue($result);
-		// @unlink($data['path'].'/'.$data['name']);
+		@unlink($data['path'].'/'.$data['name']);
 	}
 
     /**

@@ -1,15 +1,13 @@
 # image-uploader
 
-This package can create three different size of optimized images (Thumbnail-Mobile-Desktop). Here's how you can use it:
+This package can generate different size of optimized images (Thumbnail-Mobile-Desktop). Here's how you can use it:
 
 ```php
 use Baaane\ImageUploader\ImageUploadGenerator;
 
-$path = __DIR__ .'/storage/'; //optional
+$imageUploader = new ImageUploadGenerator();
 
-$imageUploader = new ImageUploadGenerator($path);
-
-$imageUploader->upload($_FILES[<filename>]);
+$imageUploader->upload($_FILES['filename']);
 ```
 
 # Installation
@@ -21,23 +19,21 @@ git clone https://github.com/baaane/image-uploader.git
 composer require baaaaane/image-uploader
 ```
 ### Tools
-The package required this library to optimize the image. 
+This package is required in this library to optimize the image:
 
 - [image-optimizer](https://github.com/spatie/image-optimizer)
 
-Here's how to install via compose:
+Here's how to install via composer:
 ```php
 composer require spatie/image-optimizer
 ```
 
 # Instructions
-The path at <new ImageUploadGenerator(path)> will overwritten the default path of uploaded file. So it is optional if you want to put your desired path. 
-Pass the required data array inside the function upload(array).  If you want to customize the name of the uploaded images. 
-Put the new name in [input=type name=new_name]. Convert string to array and merge it together with the [FILES]. It should look like this:
+The filenames can be randomized or customizable by the user. Parameter for upload should be an array. It should look like this:
 
 #### Sample expected input
 ```php
-//before merge
+// Before merge
 $_FILES = [
     'filename' => [
         'name' => 'uploaded-image.jpg',
@@ -48,10 +44,19 @@ $_FILES = [
     ]
 ];
 
-$_POST = [ 
-    'new_name' => 'new_name1'
+// OPTIONAL PARAMETER: If the input post is string, convert it to array
+$_POST['new_name'] = [
+	'new_name' => 'new_name1'
 ];
 
+// Then merge
+$data = array_merge($_FILES['filename'], $_POST['new_name']);
+
+// OPTIONAL PARAMETER: desired path of uploaded files
+$path = __DIR__. '/_files';
+
+$imageUploader = new ImageUploadGenerator($path);
+$imageUploader->upload($data);
 ```
 
 #### Sample output after merge
@@ -99,7 +104,7 @@ $_FILES = [
 ];
 ```
 
-#### Sample return final output
+#### Sample retrieve files after uploading. Return an array upon success.
 ```php
 // single upload file
 Array 
