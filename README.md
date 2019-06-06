@@ -126,14 +126,14 @@ Array
   )
 )
 ```
-## Example conversions
+# Example conversions
 Here are some real life example conversions done by this package.
 
 ### Original: 
 ##### JPEG 272KB
 ![Original](https://github.com/baaane/image-uploader/blob/master/storage/app/public/test.jpg?raw=true)
 
-### Optimized and Converted to Desktop|Mobile|Thumbnail: 
+### Optimized and Converted to Desktop | Mobile | Thumbnail: 
 ##### Desktop 1920 x 1080 | JPEG | 218KB
 ![Optimized](https://github.com/baaane/image-uploader/blob/master/storage/app/public/desktop_new_name1.jpg?raw=true)
 
