@@ -29,7 +29,7 @@ composer require spatie/image-optimizer
 
 # Instructions
 The path at <new ImageUploadGenerator(path)> will overwritten the default path of uploaded file. So it is optional if you want to put your desired path. 
-Pass the required data array inside the <ImageUploadGenerator->upload(array)>.  If you want to customize the name of the uploaded images. 
+Pass the required data array inside the function upload(array).  If you want to customize the name of the uploaded images. 
 Put the new name in [input=type name=new_name]. Convert string to array and merge it together with the [FILES]. It should look like this:
 
 #### Sample expected input
@@ -129,11 +129,11 @@ Here are some real life example conversions done by this package.
 ### Original: JPEG 272KB
 ![Original](https://github.com/baaane/image-uploader/blob/master/storage/app/public/test.jpg?raw=true)
 
-### Optimzed: DESKTOP | JPEG | 218KB
+### Optimzed: DESKTOP 1920 x 1080 | JPEG | 218KB
 ![Original](https://github.com/baaane/image-uploader/blob/master/storage/app/public/desktop_new_name1.jpg?raw=true)
 
-### Optimzed: DESKTOP | JPEG | 50KB
+### Optimzed: MOBILE 690 x 960 | JPEG | 50KB
 ![Original](https://github.com/baaane/image-uploader/blob/master/storage/app/public/mobile_new_name1.jpg?raw=true)
 
-### Optimzed: DESKTOP | JPEG | 14KB
+### Optimzed: THUMBNAIL 300x300 | JPEG | 14KB
 ![Original](https://github.com/baaane/image-uploader/blob/master/storage/app/public/thumbnail_new_name1.jpg?raw=true)
