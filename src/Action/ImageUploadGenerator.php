@@ -4,7 +4,6 @@ namespace Library\Baaane\ImageUploader\Action;
 
 use Exception;
 use Library\Baaane\ImageUploader\Core\Upload;
-use Library\Baaane\ImageUploader\Contracts\ImageActionInterface;
 use Library\Baaane\ImageUploader\Action\ThumbnailImageSize;
 use Library\Baaane\ImageUploader\Action\MobileImageSize;
 use Library\Baaane\ImageUploader\Action\DesktopImageSize;
@@ -22,15 +21,6 @@ class ImageUploadGenerator
     }
 
 	/**
-	 * Execute of specific function
-	 * @param Library\ImageUploader\ImageActionInterface $exec
-	 */
-	public function action(ImageActionInterface $exec)
-	{		
-		return $exec->action();
-	}
-
-	/**
 	 * Upload the image
 	 *
 	 * @param array $data
@@ -39,22 +29,24 @@ class ImageUploadGenerator
 	 */
 	public function upload(array $data)
 	{	
-		$data_array = $this->reArrayFiles($data);		
-		$upload = new Upload($this->filePath);
 
-		for ($i=0; $i < count($data_array); $i++) {
-			if($data_array[$i]['error'] === 1){
+		$data = $this->reArrayFiles($data);
+
+		$upload 	= new Upload($this->filePath);
+
+		for ($i=0; $i < count($data); $i++) {
+			if($data[$i]['error'] === 1){
 				$result[] = 'The uploaded file exceeds the upload_max_filesize in php.ini!';
 			}
 
-			if($data_array[$i]['error'] === 2){
+			if($data[$i]['error'] === 2){
 				$result[] = 'The uploaded file exceeds the MAX_FILE_SIZE!';
 			}
 
-			if($data_array[$i]['error'] === 0){
-				if($this->checkImageType($data_array[$i])){
-					$data_result = $upload->handle($data_array[$i]);
-					$result[] = $this->resize($data_result);
+			if($data[$i]['error'] === 0){
+				if($this->checkImageType($data[$i])){
+					$this->data_result = $upload->handle($data[$i]);
+					$result[] = $this->resize($data[$i]);
 				}
 			}
 		}
@@ -73,24 +65,24 @@ class ImageUploadGenerator
 	public function resize(array $data)
 	{
 		//thumbnail
-		$thumbnailController = new ThumbnailImageSize($data);
-		$thumbnail = $thumbnailController->action();
-		
-		//mobile
-		$mobileController = new MobileImageSize($data);
-		$mobile = $mobileController->action();
+		$thumbnailController = new ThumbnailImageSize($this->data_result);
+		$thumbnail = $thumbnailController->get($data);
 
-		//desktop
-		$desktopController = new DesktopImageSize($data);
-		$desktop = $desktopController->action();
+		// //mobile
+		// $mobileController = new MobileImageSize($data);
+		// $mobile = $mobileController->action();
+
+		// //desktop
+		// $desktopController = new DesktopImageSize($data);
+		// $desktop = $desktopController->action();
 
 		$data = [
 			'thumbnail' => $thumbnail,
-			'mobile'	=> $mobile,
-			'desktop'	=> $desktop
+			// 'mobile'	=> $mobile,
+			// 'desktop'	=> $desktop
 		];
 
-		return $data;
+		return $data;	
 	}
 
 	/**

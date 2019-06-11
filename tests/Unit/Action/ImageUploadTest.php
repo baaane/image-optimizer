@@ -14,11 +14,30 @@ class ImageUploadTest extends TestCase
 
         $_FILES = [
             'filename' => [
-                'name' => 'uploaded-image.jpg',
-                'type' => 'image/jpeg',
-                'size' => 542,
-                'tmp_name' =>   __DIR__. '/_files/test.jpg',
-                'error' => 0,
+                    'name' => [
+        0 => 'uploaded-image.jpg',
+        1 => 'uploaded-image1.jpg',
+    ],
+    'type' => [
+        0 => 'image/jpeg',
+        1 => 'image/jpeg',
+    ],
+    'size' => [
+        0 => 542,
+        1 => 542,
+    ],
+    'tmp_name' => [
+        0 => __DIR__. '/_files/test.jpg',
+        1 => __DIR__. '/_files/test1.jpg',
+    ],
+    'error' => [
+        0 => 0,
+        1 => 0,
+    ],
+    'new_name' => [
+        0 => 'new_name1',
+        1 => 'new_name2',
+    ]
             ]
         ];
 
@@ -82,6 +101,34 @@ class ImageUploadTest extends TestCase
         
         $this->assertTrue($data[0]);
     }
+
+    /**
+     * @test
+     */
+    public function it_should_customize_the_image_size()
+    {   
+        $name = [
+            'new_name' => ['new1', 'new2']
+        ];
+
+        $size = [ 
+            // 'mobile'    => ['0,0' , '500,200'],
+            'desktop'   => ['1920, 1080', '800,750'],
+            'thumbnail' => ['300, 300', '200,200']
+        ];
+
+        $data_merge = array_merge($_FILES['filename'], $name, $size);
+        $data = $this->mocked_upload->upload($data_merge);
+
+        for ($i=0; $i < count($data); $i++) { 
+            // @unlink($data[$i]['thumbnail']);
+            // @unlink($data[$i]['mobile']);
+            // @unlink($data[$i]['desktop']);
+        }
+
+        $this->assertTrue(count($data) > 0);
+    }
+
 
    	/**
 	 * will remove the uploaded images
