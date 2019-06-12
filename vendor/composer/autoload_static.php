@@ -25,22 +25,11 @@ class ComposerStaticInit0de119f297f3c56f754450bddd10c78d
         ),
     );
 
-    public static $classMap = array (
-        'Baaane\\ImageUploader\\Action\\DesktopImageSize' => __DIR__ . '/../..' . '/src/Action/DesktopImageSize.php',
-        'Baaane\\ImageUploader\\Action\\MobileImageSize' => __DIR__ . '/../..' . '/src/Action/MobileImageSize.php',
-        'Baaane\\ImageUploader\\Action\\ThumbnailImageSize' => __DIR__ . '/../..' . '/src/Action/ThumbnailImageSize.php',
-        'Baaane\\ImageUploader\\Contracts\\ImageActionInterface' => __DIR__ . '/../..' . '/src/Contracts/ImageActionInterface.php',
-        'Baaane\\ImageUploader\\Core\\Upload' => __DIR__ . '/../..' . '/src/Core/Upload.php',
-        'Baaane\\ImageUploader\\ImageUploadGenerator' => __DIR__ . '/../..' . '/src/Action/ImageUploadGenerator.php',
-        'Baaane\\ImageUploader\\Traits\\ImageTrait' => __DIR__ . '/../..' . '/src/Traits/ImageTrait.php',
-    );
-
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit0de119f297f3c56f754450bddd10c78d::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit0de119f297f3c56f754450bddd10c78d::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit0de119f297f3c56f754450bddd10c78d::$classMap;
 
         }, null, ClassLoader::class);
     }

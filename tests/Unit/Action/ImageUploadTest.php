@@ -126,15 +126,16 @@ class ImageUploadTest extends TestCase
         $data_merge = array_merge($_FILES['filename'], $name, $size);
 
         $data = $this->mocked_upload->reArrayFiles($data_merge);
+        
         $result = [];
         for ($i=0; $i < count($data) ; $i++) { 
             $result[] = $this->mocked_upload->upload($data[$i]);
         }
 
         for ($i=0; $i < count($result); $i++) { 
-            // @unlink($result[$i]['thumbnail']);
-            // @unlink($result[$i]['mobile']);
-            // @unlink($result[$i]['desktop']);
+            @unlink($result[$i]['thumbnail']);
+            @unlink($result[$i]['mobile']);
+            @unlink($result[$i]['desktop']);
         }
 
         $this->assertTrue(count($result) > 0);

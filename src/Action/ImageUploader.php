@@ -7,11 +7,18 @@ use Library\Baaane\ImageUploader\Core\Upload;
 use Library\Baaane\ImageUploader\Action\MobileImageSize;
 use Library\Baaane\ImageUploader\Action\DesktopImageSize;
 use Library\Baaane\ImageUploader\Action\ThumbnailImageSize;
+use Library\Baaane\ImageUploader\Builder\ReflectionClassBuilder;
 use Library\Baaane\ImageUploader\Exceptions\ImageUploaderException;
 use Library\Baaane\ImageUploader\Exceptions\InvalidImageTypeException;
 
 class ImageUploader
 {
+	private $imageClassSize = [
+		'thumbnail' => ThumbnailImageSize::class,
+		'mobile'	=> MobileImageSize::class,
+		'desktop'	=> DesktopImageSize::class,
+	];
+
     /**
      * File path
      *
@@ -21,6 +28,7 @@ class ImageUploader
     {
         $this->filePath = $filePath;
     }
+
 
 	/**
 	 * Upload the image
@@ -65,28 +73,15 @@ class ImageUploader
 	 * @return array
 	 *
 	 */
-	public function resize($fileData, $data)
+	public function resize($fileData, $image)
 	{
-		unset($data['name'],$data['type'],$data['size'],$data['error'],$data['tmp_name']);
-
-		//thumbnail
-		// $thumbnailSize = new ThumbnailImageSize($fileData);
-		// $thumbnail = $thumbnailSize->get($data);
-
-		// //mobile
-		// $mobileSize = new MobileImageSize($fileData);
-		// $mobile = $mobileSize->get($data);
-
-		//desktop
-		$desktopSize = new DesktopImageSize($fileData);
-		$desktop = $desktopSize->get($data);
-
-		$result = [
-			// 'thumbnail' => $thumbnail,
-			// 'mobile'	=> $mobile,
-			'desktop'	=> $desktop
-		];
-
+		foreach ($this->imageClassSize as $key => $value) {
+			$builder = ReflectionClassBuilder::create($this->imageClassSize[$key]);
+			$data[] = $builder->get($fileData,$image);
+			foreach ($data as $dkey => $dvalue) {
+				$result[$key] = $dvalue;
+			}
+		}
 		return $result;	
 	}
 

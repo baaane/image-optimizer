@@ -2,28 +2,18 @@
 
 namespace Library\Baaane\ImageUploader\Traits;
 
-use Library\Baaane\ImageUploader\Traits\ImageJpeg;
-use Library\Baaane\ImageUploader\Traits\ImagePng;
-use Library\Baaane\ImageUploader\Traits\ImageGif;
+use Library\Baaane\ImageUploader\Domains\ImageJpeg;
+use Library\Baaane\ImageUploader\Domains\ImagePng;
+use Library\Baaane\ImageUploader\Domains\ImageGif;
+use Library\Baaane\ImageUploader\Builder\ReflectionClassBuilder;
 
 trait ImageTrait
 {
-	protected $imageTypes = [
+	private $imageTypes = [
 		'image/jpeg' 	=> ImageJpeg::class,
 		'image/png' 	=> ImagePng::class,
 		'image/gif' 	=> ImageGif::class,
 	];
-
-	private function build($type)
-	{
-		try {		
-			$reflection = new \ReflectionClass($this->imageTypes[$type]);
-			$class = $reflection->newInstanceArgs([]);
-			return $class;
-		} catch (Exception $e) {
-			throw new \Exception("Image type class not found!");
-		}
-	}
 
 	/**
 	 * Get the image information
@@ -37,15 +27,14 @@ trait ImageTrait
 	{
 		try {
 			$type 	= mime_content_type($tmp_name);
-			$image 	= $this->build($type);
+			$image 	= ReflectionClassBuilder::create($this->imageTypes[$type]);
 			$data 	= $image->info($tmp_name);
 
 			return $data;
-		} catch (InvalidImageTypeException $e) {
-			throw InvalidImageTypeException::checkMimeType($type);
+		} catch (\Exception $e) {
+			// silent continously
 		}
 	}
-
 	
 	/**
 	 * Creating new image
@@ -61,12 +50,13 @@ trait ImageTrait
 	{
 		try {
 			$type 	= mime_content_type($name);
-			$image 	= $this->build($type);
+			$image 	= ReflectionClassBuilder::create($this->imageTypes[$type]);
 			$data 	= $image->create($new, $name, $final);
 			
 			return $data;
-		} catch (InvalidImageTypeException $e) {
-				throw InvalidImageTypeException::checkMimeType($type);
+		} catch (\Exception $e) {
+			// silent continously
 		}
+
 	}
 }

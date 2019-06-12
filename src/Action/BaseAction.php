@@ -62,7 +62,7 @@ abstract class BaseAction
      *
      * @param string $filename with path
      */
-	public function image_optimization($filename)
+	private function image_optimization($filename)
 	{
 		$optimizerChain = OptimizerChainFactory::create();
 		$optimizerChain->optimize($filename);

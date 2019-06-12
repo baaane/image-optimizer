@@ -1,8 +1,8 @@
 <?php
 
-namespace Library\Baaane\ImageUploader\Traits;
+namespace Library\Baaane\ImageUploader\Domains;
 
-class ImageGif
+class ImageJpeg 
 {
 	/**
 	 * Get the image information 
@@ -13,7 +13,7 @@ class ImageGif
 	 */
 	public function info($tmp_name)
 	{
-		$data = imagecreatefromgif($tmp_name);
+		$data = imagecreatefromjpeg($tmp_name);
 		return $data;
 	}
 
@@ -27,8 +27,8 @@ class ImageGif
 	 *
 	 */
 	public function create($new, $name, $final)
-	{
-		imagegif($new, $final);
+	{	
+		imagejpeg($new, $final, 85);
 		$data = rtrim($final);
 		return $data;
 	}
