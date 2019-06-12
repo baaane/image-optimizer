@@ -2,66 +2,26 @@
 
 namespace Library\Baaane\ImageUploader\Action;
 
-use Library\Baaane\ImageUploader\Traits\ImageTrait;
-use Library\Baaane\ImageUploader\Contracts\ImageActionInterface;
+use Library\Baaane\ImageUploader\Action\BaseAction;
 
-class MobileImageSize implements ImageActionInterface
+class MobileImageSize extends BaseAction
 {
-	use ImageTrait;
-
 	/**
      * @param array $data
      */
 	public function __construct($data)
 	{
 		$this->data = $data;
-		$this->name = $data['name'];
-		$this->tmp_name = $data['tmp_name'];
-		$this->path = $data['path'];
 	}
 
 	/**
-     * Execute creating size
+     * get new size
      *
-     * @return array $data
+     * @return string $data
      */
-	public function action()
+	public function get($image = [])
 	{
-		$image_info = $this->getImageInfo($this->data);
-		$new_image = $this->createSize($image_info);
-		$final_image = $this->path.'mobile_'.$this->name;
-		$data = $this->createImage($new_image, $this->tmp_name, $final_image);
-
-		// Destroy resources
-		imagedestroy($image_info);
-		imagedestroy($new_image);
-
+		$data = $this->create($this->data, $image, '690x960', BaseAction::MOBILE);
 		return $data;
-	}
-
-	/**
-     * Creating new size
-     *
-     * @param array $image
-     */
-	public function createSize($image)
-	{
-		$max_width = 690;
-		$max_height = 960;
-
-		// Calculate new dimensions
-		$old_width      = imagesx($image);
-		$old_height     = imagesy($image);
-		$scale          = min($max_width/$old_width, $max_height/$old_height);
-		$new_width      = ceil($scale*$old_width);
-		$new_height     = ceil($scale*$old_height);
-
-		// Create new empty image
-		$new = imagecreatetruecolor($new_width, $new_height);
-
-		// Resample old into new
-		imagecopyresampled($new, $image, 0, 0, 0, 0, $new_width, $new_height, $old_width, $old_height);
-
-		return $new;
 	}
 }

@@ -2,19 +2,38 @@
 
 namespace Library\Baaane\ImageUploader\Action;
 
+use Spatie\ImageOptimizer\OptimizerChainFactory;
+use Library\Baaane\ImageUploader\Traits\ImageTrait;
+
 abstract class BaseAction
 {
-	const THUMBNAIL = 'thumbnail_';
-	const MOBILE_SIZE = 'mobile_';
-	const DESKTOP_SIZE = 'desktop_';
+	use ImageTrait;
+
+	const THUMBNAIL = 'thumbnail';
+	const MOBILE 	= 'mobile';
+	const DESKTOP 	= 'desktop';
 
 	/**
      * Creating new size
      *
-     * @param array $image
+     * @return array $data
      */
-	public function create($max_width, $max_height, $image)
+	public function create($data, $imageData, $defaultSize, $name)
 	{
+		// Customize size
+		$imageData	= ((isset($imageData[$name])) && (!empty($imageData[$name])) ? $imageData[$name] : $defaultSize);
+		$imageSizes = explode('x', $imageData);
+		
+		// Default size
+		$defaultSize = explode('x', $defaultSize);
+
+		// Check if data is not zero
+		$max_width 	= ($imageSizes[0] != 0 ? $imageSizes[0] : $defaultSize[0]);
+		$max_height = ($imageSizes[1] != 0 ? $imageSizes[1] : $defaultSize[1]);
+
+		// Get image info
+		$image 	= $this->getImageInfo($data['tmp_name']);
+
 		// Calculate new dimensions
 		$old_width      = imagesx($image);
 		$old_height     = imagesy($image);
@@ -23,11 +42,29 @@ abstract class BaseAction
 		$new_height     = ceil($scale*$old_height);
 
 		// Create new empty image
-		$data = imagecreatetruecolor($new_width, $new_height);
+		$new = imagecreatetruecolor($new_width, $new_height);
 
 		// Resample old into new
-		imagecopyresampled($data, $image, 0, 0, 0, 0, $new_width, $new_height, $old_width, $old_height);
+		imagecopyresampled($new, $image, 0, 0, 0, 0, $new_width, $new_height, $old_width, $old_height);
 
+		// Final image
+		$final 	= $data['path'].$name.'_'.$data['name'];
+
+		// Create final image
+		$data = $this->createImage($new, $data['tmp_name'], $final);
+
+		$this->image_optimization($final);
 		return $data;
+	}
+
+	/**
+     * Optimize the file
+     *
+     * @param string $filename with path
+     */
+	public function image_optimization($filename)
+	{
+		$optimizerChain = OptimizerChainFactory::create();
+		$optimizerChain->optimize($filename);
 	}
 }

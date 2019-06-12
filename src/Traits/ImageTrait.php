@@ -2,10 +2,29 @@
 
 namespace Library\Baaane\ImageUploader\Traits;
 
-use Spatie\ImageOptimizer\OptimizerChainFactory;
+use Library\Baaane\ImageUploader\Traits\ImageJpeg;
+use Library\Baaane\ImageUploader\Traits\ImagePng;
+use Library\Baaane\ImageUploader\Traits\ImageGif;
 
 trait ImageTrait
 {
+	protected $imageTypes = [
+		'image/jpeg' 	=> ImageJpeg::class,
+		'image/png' 	=> ImagePng::class,
+		'image/gif' 	=> ImageGif::class,
+	];
+
+	private function build($type)
+	{
+		try {		
+			$reflection = new \ReflectionClass($this->imageTypes[$type]);
+			$class = $reflection->newInstanceArgs([]);
+			return $class;
+		} catch (Exception $e) {
+			throw new \Exception("Image type class not found!");
+		}
+	}
+
 	/**
 	 * Get the image information
 	 * Thumbnail|Mobile|Desktop	 
@@ -14,28 +33,22 @@ trait ImageTrait
 	 * @return array
 	 *
 	 */
-	public function getImageInfo($data)
+	public function getImageInfo($tmp_name)
 	{
-		$type = mime_content_type($data['tmp_name']);
-		switch(strtolower($type))
-		{
-	        case 'image/jpeg':
-	                $data = imagecreatefromjpeg($data['tmp_name']);
-	                break;
-	        case 'image/png':
-	                $data = imagecreatefrompng($data['tmp_name']);
-	                break;
-	        case 'image/gif':
-	                $data = imagecreatefromgif($data['tmp_name']);
-	                break;
-	        default:
-	        	throw new Exception('Unsupported type: '.$type);
+		try {
+			$type 	= mime_content_type($tmp_name);
+			$image 	= $this->build($type);
+			$data 	= $image->info($tmp_name);
+
+			return $data;
+		} catch (InvalidImageTypeException $e) {
+			throw InvalidImageTypeException::checkMimeType($type);
 		}
-		return $data;
 	}
+
 	
 	/**
-	 * Creating new image according to different size 
+	 * Creating new image
 	 * Thumbnail|Mobile|Desktop
 	 *
 	 * @param string $new
@@ -46,39 +59,14 @@ trait ImageTrait
 	 */
 	public function createImage($new, $name, $final)
 	{
-		$type = mime_content_type($name);
-		switch(strtolower($type))
-		{
-	        case 'image/jpeg':
-	                imagejpeg($new, $final, 100);
-	                $this->image_optimization($final);
-	                $data = rtrim($final);
-	                break;
-	        case 'image/png':
-	                imagepng($new, $final);
-	                $this->image_optimization($final);
-	                $data = rtrim($final);
-	                break;
-	        case 'image/gif':
-	                imagegif($new, $final);
-	                $this->image_optimization($final);
-	                $data = rtrim($final);
-	                break;
-	        default:
-	            throw new Exception('Unsupported type: '.$type);
+		try {
+			$type 	= mime_content_type($name);
+			$image 	= $this->build($type);
+			$data 	= $image->create($new, $name, $final);
+			
+			return $data;
+		} catch (InvalidImageTypeException $e) {
+				throw InvalidImageTypeException::checkMimeType($type);
 		}
-
-		return $data;
-	}
-
-	/**
-     * Optimize the file
-     *
-     * @param string $filename with path
-     */
-	public function image_optimization($filename)
-	{
-		$optimizerChain = OptimizerChainFactory::create();
-		$optimizerChain->optimize($filename);
 	}
 }
