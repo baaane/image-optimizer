@@ -92,7 +92,7 @@ class ImageUploader
 	 * @return array
 	 *
 	 */
-	public function reArrayFiles(&$data_array)
+	public function reArray(&$data_array)
 	{
 		$data = [];
         foreach($data_array as $key => $value){

@@ -33,10 +33,6 @@ class ImageUploadTest extends TestCase
                 'error' => [
                     0 => 0,
                     1 => 0,
-                ],
-                'new_name' => [
-                    0 => 'new_name1',
-                    1 => 'new_name2',
                 ]
             ]
         ];
@@ -49,7 +45,7 @@ class ImageUploadTest extends TestCase
      */
     public function it_should_upload_and_resize_image()
     {   
-        $data = $this->mocked_upload->reArrayFiles($_FILES['filename']);
+        $data = $this->mocked_upload->reArray($_FILES['filename']);
         $result = [];
         for ($i=0; $i < count($data) ; $i++) { 
             $result[] = $this->mocked_upload->upload($data[$i]);
@@ -75,7 +71,7 @@ class ImageUploadTest extends TestCase
 
         $data_merge = array_merge($_FILES['filename'], $name);
 
-        $data = $this->mocked_upload->reArrayFiles($data_merge);
+        $data = $this->mocked_upload->reArray($data_merge);
         $result = [];
         for ($i=0; $i < count($data) ; $i++) { 
             $result[] = $this->mocked_upload->upload($data[$i]);
@@ -101,7 +97,7 @@ class ImageUploadTest extends TestCase
 
         $data_merge = array_merge($_FILES['filename'], $name);
 
-        $data = $this->mocked_upload->reArrayFiles($data_merge);
+        $data = $this->mocked_upload->reArray($data_merge);
         for ($i=0; $i < count($data); $i++) { 
             $result[] = $this->mocked_upload->checkImageType($data[$i]);
             $this->assertTrue($result[$i]);
@@ -125,8 +121,8 @@ class ImageUploadTest extends TestCase
 
         $data_merge = array_merge($_FILES['filename'], $name, $size);
 
-        $data = $this->mocked_upload->reArrayFiles($data_merge);
-        
+        $data = $this->mocked_upload->reArray($data_merge);
+
         $result = [];
         for ($i=0; $i < count($data) ; $i++) { 
             $result[] = $this->mocked_upload->upload($data[$i]);
@@ -140,7 +136,6 @@ class ImageUploadTest extends TestCase
 
         $this->assertTrue(count($result) > 0);
     }
-
 
    	/**
 	 * will remove the uploaded images

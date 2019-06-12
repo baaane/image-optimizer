@@ -2,9 +2,9 @@
 This package can generate different size of optimized images (Thumbnail-Mobile-Desktop). Here's how you can use it:
 
 ```php
-use Baaane\ImageUploader\ImageUploadGenerator;
+use Baaane\ImageUploader\Action\ImageUploader;
 
-$imageUploader = new ImageUploadGenerator();
+$imageUploader = new ImageUploader();
 
 $imageUploader->upload($_FILES['filename']);
 ```
@@ -28,9 +28,42 @@ composer require spatie/image-optimizer
 ```
 
 ## Instructions
-The filenames can be randomized or customized by the user. Parameter for upload should be an array. It should look like this:
+The filenames can be randomized or customized by the user.
 
-#### Sample expected input
+#### Customizable Name (OPTIONAL)
+```
+$new_name = [
+    'new_name' => 'new_name1'
+];
+
+```
+
+#### Customizable Size (FORMAT: WIDTH X HEIGHT) (OPTIONAL)
+```
+$new_size = [ 
+    'mobile'    => '690x960',
+    'desktop'   => '1920x1080',
+    'thumbnail' => '300x300'
+];
+
+```
+
+#### Parameter for upload should be an array. It should look like this:
+```
+[
+    'name' => 'uploaded-image.jpg'
+    'type' => 'image/jpeg'
+    'size' => 542
+    'tmp_name' => __DIR__. '/_files/test.jpg',
+    'error' => 0
+    'new_name' => 'new_name1'
+    'mobile' => '200x200'
+    'desktop' => '1920x1080'
+    'thumbnail' => '150x150'
+]
+```
+
+### Sample Single Upload
 ```php
 // Before merge
 $_FILES = [
@@ -44,59 +77,150 @@ $_FILES = [
 ];
 
 // OPTIONAL PARAMETER: If the input post is string, convert it to array
-$_POST['new_name'] = [
+$new_name = [
 	'new_name' => 'new_name1'
 ];
 
+// OPTIONAL PARAMETER: If the input post is string, convert it to array
+$new_size = [ 
+    'mobile'    => '690x960',
+    'desktop'   => '1920x1080',
+    'thumbnail' => '300x300'
+];
+
 // Then merge
-$data = array_merge($_FILES['filename'], $_POST['new_name']);
+$data = array_merge($_FILES['filename'], $new_name, $new_size);
 
 // OPTIONAL PARAMETER: desired path of uploaded files
 $path = __DIR__. '/_files';
 
-$imageUploader = new ImageUploadGenerator($path);
+$imageUploader = new ImageUploader($path);
 $imageUploader->upload($data);
 ```
 
-#### Sample output after merge
-```php
-// Single upload file
-[
-    'name' => 'uploaded-image.jpg',
-    'type' => 'image/jpeg',
-    'size' => 542,
-    'tmp_name' =>	__DIR__. '/_files/test.jpg',
-    'error' => 0,
-    'new_name' => 'new_name1'
+### Sample Multiple Upload
+````
+$_FILES = [
+    'filename' => [
+        'name' => [
+            0 => 'uploaded-image.jpg',
+            1 => 'uploaded-image1.jpg',
+        ],
+        'type' => [
+            0 => 'image/jpeg',
+            1 => 'image/jpeg',
+        ],
+        'size' => [
+            0 => 542,
+            1 => 542,
+        ],
+        'tmp_name' => [
+            0 => __DIR__. '/_files/test.jpg',
+            1 => __DIR__. '/_files/test1.jpg',
+        ],
+        'error' => [
+            0 => 0,
+            1 => 0,
+        ]
+    ]
 ];
 
-// multiple upload file
+// OPTIONAL PARAMETER: If the input post is string, convert it to array
+$new_name = [
+    'new_name' => ['new_name1', 'new_name2']
+];
+
+// OPTIONAL PARAMETER: If the input post is string, convert it to array
+$new_size = [ 
+    'mobile'    => ['690x960' , '500x300'],
+    'desktop'   => ['1920x1080', '800x750'],
+    'thumbnail' => ['150x150', '200x200']
+];
+
+// Then merge
+$data_merge = array_merge($_FILES['filename'], $new_name, $new_size);
+
+// Re-array the merge data
+$data = $imageUploader->reArray($data_merge);
+
+// OPTIONAL PARAMETER: desired path of uploaded files
+$path = __DIR__. '/_files';
+
+$imageUploader = new ImageUploader($path);
+$imageUploader->upload($data);
+````
+
+#### For multiple uploads, use this line of code for re-arrange the array before passing the array for upload:
+```
+$data = $imageUploader->reArray($data_merge);
+```
+From:
+```
 [
     'name' => [
-    	0 => 'uploaded-image.jpg',
-    	1 => 'uploaded-image1.jpg',
+        0 => 'uploaded-image.jpg',
+        1 => 'uploaded-image1.jpg',
     ],
     'type' => [
-    	0 => 'image/jpeg',
-    	1 => 'image/jpeg',
+        0 => 'image/jpeg',
+        1 => 'image/jpeg',
     ],
     'size' => [
-    	0 => 542,
-    	1 => 542,
+        0 => 542,
+        1 => 542,
     ],
     'tmp_name' => [
-    	0 => __DIR__. '/_files/test.jpg',
-    	1 => __DIR__. '/_files/test1.jpg',
+        0 => __DIR__. '/_files/test.jpg',
+        1 => __DIR__. '/_files/test1.jpg',
     ],
     'error' => [
-    	0 => 0,
-    	1 => 0,
-   	],
-   	'new_name' => [
-   		0 => 'new_name1',
-    	1 => 'new_name2',
-   	]
+        0 => 0,
+        1 => 0,
+    ],
+    'new_name' => [
+        0 => 'new_name1',
+        1 => 'new_name2',
+    ],
+    'mobile' =>  [
+        0 => '690x960'
+        1 => '500x300'
+    ]
+    'desktop' => [
+        0 => '1920x1080'
+        1 => '800x750'
+    ]
+    'thumbnail' => [
+        0 => '150x150'
+        1 => '200x200'
+    ]
 ];
+```
+To:
+```
+[
+  0 => [
+    'name' => 'uploaded-image.jpg'
+    'type' => 'image/jpeg'
+    'size' => 542
+    'tmp_name' => __DIR__. '/_files/test.jpg',
+    'error' => 0
+    'new_name' => 'new_name1'
+    'mobile' => '690x960'
+    'desktop' => '1920x1080'
+    'thumbnail' => '150x150'
+  ]
+  1 => [
+    'name' => 'uploaded-image1.jpg'
+    'type' => 'image/jpeg'
+    'size' => 542
+    'tmp_name' => __DIR__. '/_files/test.jpg'
+    'error' => 0
+    'new_name' => 'new_name1'
+    'mobile' => '500x300'
+    'desktop' => '800x750'
+    'thumbnail' => '200x200'
+  ]
+]
 ```
 
 #### Sample retrieve files after uploading. Return an array upon success.
@@ -126,6 +250,7 @@ Array
   )
 )
 ```
+
 ## Example conversions
 Here are the example conversions done by this package.
 
