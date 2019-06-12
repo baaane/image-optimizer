@@ -150,7 +150,7 @@ $imageUploader = new ImageUploader($path);
 $imageUploader->upload($data);
 ````
 
-#### For multiple uploads, use this line of code for re-arrange the array before passing the array for upload:
+#### For multiple uploads, use this line of code for re-arrange the array before passing the array to imageUploader->upload:
 ```
 $data = $imageUploader->reArray($data_merge);
 ```
