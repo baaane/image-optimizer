@@ -7,13 +7,16 @@ use Library\Baaane\ImageUploader\Action\BaseAction;
 class MobileImageSize extends BaseAction
 {
 	/**
-     * get new size
+     * Get new size
      *
-     * @return string $data
+     * @return string
      */
-	public function get($data, $image = [])
+	public function get($data, $size = [])
 	{
-		$result = $this->create($data, $image, '690x960', BaseAction::MOBILE);
-		return $result;
+		$name = BaseAction::MOBILE;
+		$defaultSize = $this->setDefaultSize(690,960);
+		$data_result = $this->create($data, $size, $defaultSize, $name);
+		
+		return $data_result;
 	}
 }

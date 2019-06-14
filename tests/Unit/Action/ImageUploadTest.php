@@ -114,9 +114,16 @@ class ImageUploadTest extends TestCase
         ];
 
         $size = [ 
-            'mobile'    => ['200x200' , '300x200'],
-            'desktop'   => ['1920x1080', '800x750'],
-            'thumbnail' => ['0x0', '200x200']
+            'new_size' => [
+                $this->mocked_upload->setThumbnailSize(200,200)
+                                    ->setMobileSize(691,961)
+                                    ->setDesktopSize(800,750)
+                                    ->get(),
+                $this->mocked_upload->setThumbnailSize()
+                                    ->setMobileSize(345,789)
+                                    ->setDesktopSize(0,0)
+                                    ->get(),
+            ]
         ];
 
         $data_merge = array_merge($_FILES['filename'], $name, $size);

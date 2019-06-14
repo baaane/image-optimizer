@@ -4,23 +4,25 @@ namespace Library\Baaane\ImageUploader\Exceptions;
 
 class ImageUploaderException extends \Exception
 {
-    public function __construct($message, $code = 500, \Exception $previous = null)
+    public function __construct($type)
     {
-        parent::__construct($message, $code, $previous);
-    }
+        $phpFileUploadErrors = array(
+            0 => 'There is no error, the file uploaded with success!',
+            1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini!',
+            2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form!',
+            3 => 'The uploaded file was only partially uploaded!',
+            4 => 'No file was uploaded!',
+            6 => 'Missing a temporary folder!',
+            7 => 'Failed to write file to disk!',
+            8 => 'A PHP extension stopped the file upload!',
+        );
 
-    public static function maxFileSize()
-    {
-        return new static("The uploaded file exceeds the upload_max_filesize in php.ini!");
-    }
+        $message = $phpFileUploadErrors[$type];
+        
+        if(!array_key_exists($type, $phpFileUploadErrors)){
+            $message = 'Undefined Error!';
+        }
 
-    public static function uploadMaxFilezize()
-    {
-        return new static("The uploaded file exceeds the MAX_FILE_SIZE!");
-    }
-
-    public static function noFileWasUploaded()
-    {
-        return new static("No file was uploaded!");
+        parent::__construct($message);
     }
 }

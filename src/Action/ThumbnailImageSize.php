@@ -7,13 +7,16 @@ use Library\Baaane\ImageUploader\Action\BaseAction;
 class ThumbnailImageSize extends BaseAction
 {	
 	/**
-     * get new size
+     * Get new size
      *
-     * @return string $data
+     * @return string
      */
-	public function get($data, $image = [])
+	public function get($data, $size = [])
 	{
-		$result = $this->create($data, $image, '300x300', BaseAction::THUMBNAIL);
-		return $result;
+		$name = BaseAction::THUMBNAIL;
+		$defaultSize = $this->setDefaultSize(300,300);
+		$data_result = $this->create($data, $size, $defaultSize, $name);
+		
+		return $data_result;
 	}
 }

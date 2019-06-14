@@ -38,12 +38,14 @@ $new_name = [
 
 ```
 
-#### Customizable Size (FORMAT: WIDTH X HEIGHT) (OPTIONAL)
+#### Customizable Size (FORMAT: WIDTH, HEIGHT) (OPTIONAL)
 ```
-$new_size = [ 
-    'mobile'    => '690x960',
-    'desktop'   => '1920x1080',
-    'thumbnail' => '300x300'
+
+$size = [
+    'size' => $imageUploader->setThumbnailSize(width,height)
+                            ->setMobileSize(width,height)
+                            ->setDesktopSize(width,height)
+                            ->get(), 
 ];
 
 ```
@@ -51,15 +53,26 @@ $new_size = [
 #### Parameter for upload should be an array. It should look like this:
 ```
 [
-    'name' => 'uploaded-image.jpg'
-    'type' => 'image/jpeg'
-    'size' => 542
+    'name' => 'uploaded-image.jpg',
+    'type' => 'image/jpeg',
+    'size' => 542,
     'tmp_name' => __DIR__. '/_files/test.jpg',
-    'error' => 0
-    'new_name' => 'new_name1'
-    'mobile' => '200x200'
-    'desktop' => '1920x1080'
-    'thumbnail' => '150x150'
+    'error' => 0,
+    'new_name' => 'new_name1',
+    'new_size' => [
+        'thumbnail' => [
+            'width' => 200,
+            'height' => 200
+        ]
+        'mobile' => [
+            'width' => 691,
+            'height' => 961
+        ]
+        'desktop' => [
+            'width' => 1920,
+            'height' => 1080
+        ]
+    ]
 ]
 ```
 
@@ -82,10 +95,11 @@ $new_name = [
 ];
 
 // OPTIONAL PARAMETER: If the input post is string, convert it to array
-$new_size = [ 
-    'mobile'    => '690x960',
-    'desktop'   => '1920x1080',
-    'thumbnail' => '300x300'
+$new_size = [
+    'new_size' => $imageUploader->setThumbnailSize(200,200)
+                                ->setMobileSize(691,961)
+                                ->setDesktopSize(1920,1080)
+                                ->get(), 
 ];
 
 // Then merge
@@ -131,10 +145,17 @@ $new_name = [
 ];
 
 // OPTIONAL PARAMETER: If the input post is string, convert it to array
-$new_size = [ 
-    'mobile'    => ['690x960' , '500x300'],
-    'desktop'   => ['1920x1080', '800x750'],
-    'thumbnail' => ['150x150', '200x200']
+$size = [ 
+    'new_size' => [
+        $imageUploader->setThumbnailSize(200,200)
+                        ->setMobileSize(691,961)
+                        ->setDesktopSize(800,750)
+                        ->get(),
+        $imageUploader->setThumbnailSize()
+                        ->setMobileSize(345,789)
+                        ->setDesktopSize(0,0)
+                        ->get(),
+    ]
 ];
 
 // Then merge
@@ -181,17 +202,35 @@ From:
         0 => 'new_name1',
         1 => 'new_name2',
     ],
-    'mobile' =>  [
-        0 => '690x960'
-        1 => '500x300'
-    ]
-    'desktop' => [
-        0 => '1920x1080'
-        1 => '800x750'
-    ]
-    'thumbnail' => [
-        0 => '150x150'
-        1 => '200x200'
+    'new_size' => [
+        0 => [
+            'thumbnail' => [
+                'width' => 200,
+                'height' => 200
+            ]
+            'desktop' => [
+                'width' => 800,
+                'height' => 750
+            ],
+            'mobile' => [
+                'width' => 345,
+                'height' => 789
+            ]
+        ],
+        1 => [
+            'thumbnail' => [
+                'width' => 0,
+                'height' => 0
+            ]
+            'desktop' => [
+                'width' => 0,
+                'height' => 0
+            ]
+            'mobile' => [
+                'width' => 345,
+                'height' => 789
+            ]
+        ]
     ]
 ];
 ```
@@ -205,9 +244,20 @@ To:
     'tmp_name' => __DIR__. '/_files/test.jpg',
     'error' => 0
     'new_name' => 'new_name1'
-    'mobile' => '690x960'
-    'desktop' => '1920x1080'
-    'thumbnail' => '150x150'
+    'new_size' => [
+        'thumbnail' => [
+            'width' => 200,
+            'height' => 200
+        ]
+        'mobile' => [
+            'width' => 691,
+            'height' => 961
+        ]
+        'desktop' => [
+            'width' => 1920,
+            'height' => 1080
+        ]
+    ]
   ]
   1 => [
     'name' => 'uploaded-image1.jpg'
@@ -216,9 +266,20 @@ To:
     'tmp_name' => __DIR__. '/_files/test.jpg'
     'error' => 0
     'new_name' => 'new_name1'
-    'mobile' => '500x300'
-    'desktop' => '800x750'
-    'thumbnail' => '200x200'
+    'new_size' => [
+        'thumbnail' => [
+            'width' => 200,
+            'height' => 200
+        ]
+        'mobile' => [
+            'width' => 691,
+            'height' => 961
+        ]
+        'desktop' => [
+            'width' => 1920,
+            'height' => 1080
+        ]
+    ]
   ]
 ]
 ```

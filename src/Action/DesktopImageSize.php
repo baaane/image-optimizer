@@ -7,13 +7,16 @@ use Library\Baaane\ImageUploader\Action\BaseAction;
 class DesktopImageSize extends BaseAction
 {
 	/**
-     * get new size
+     * Get new size
      *
-     * @return string $data
+     * @return string
      */
-	public function get($data, $image = [])
+	public function get($data, $size = [])
 	{
-		$result = $this->create($data, $image, '1920x1080', BaseAction::DESKTOP);
-		return $result;
+		$name = BaseAction::DESKTOP;
+		$defaultSize = $this->setDefaultSize(1920,1080);
+		$data_result = $this->create($data, $size, $defaultSize, $name);
+		
+		return $data_result;
 	}
 }
