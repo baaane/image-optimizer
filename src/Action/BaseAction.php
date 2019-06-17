@@ -8,12 +8,20 @@ abstract class BaseAction
 {
 	use ImageTrait;
 
+	/**
+     * Constant variable 
+     */
 	const THUMBNAIL = 'thumbnail';
 	const MOBILE 	= 'mobile';
 	const DESKTOP 	= 'desktop';
 
 	/**
      * Creating new size
+     *
+	 * @param array $data
+	 * @param array $size 
+	 * @param array $defaultSize
+	 * @param string $name
      *
      * @return array $data
      */
@@ -52,26 +60,34 @@ abstract class BaseAction
 	/**
 	 * Set final size
 	 * Check if width or height is zero 
+	 *
+	 * @param array $size 
+	 * @param array $defaultSize
+	 * @param string $name
+	 *
 	 * @return array
 	 */
 	public function setSize($size, $defaultSize, $name)
 	{
-		if(!isset($size[$name])){
+		if(!isset($size['new_size'][$name])){
 			return $size = $this->getDefaultSize();
 		}
 
-		foreach ($size[$name] as $key => $value) {		
+		foreach ($size['new_size'][$name] as $key => $value) {		
 			if($value === 0 || $value >= $this->getDefaultSize()[$key]){
 				$value = $this->getDefaultSize()[$key];
 			}
-			$size[$key] = $value;
+			$size['new_size'][$key] = $value;
 		}
 		
-		return $size;
+		return $size['new_size'];
 	}
 
 	/**
 	 * Set default size
+	 * @param int $width
+	 * @param int $height
+	 *
 	 * @return array
 	 */
 	public function setDefaultSize($width, $height)
@@ -85,7 +101,8 @@ abstract class BaseAction
 	}
 
 	/**
-	 * Set default size
+	 * Get default size
+	 *
 	 * @return array
 	 */
 	public function getDefaultSize()

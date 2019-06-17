@@ -16,7 +16,9 @@ class ImageUploader
 {
 	/**
 	 * Different class sizes
+	 *
 	 * @var array $imageClassSize
+	 *
 	 */
 	private $imageClassSize = [
 		'thumbnail' => ThumbnailImageSize::class,
@@ -43,29 +45,28 @@ class ImageUploader
 	 */
 	public function upload(array $data)
 	{	
+		if($data['error']){
+			throw new ImageUploaderException($data['error']);
+		}
 		try {
-			if($data['error']){
-				throw new ImageUploaderException($data['error']);
-			}
 
-			if($this->checkImageType($data)){
-				$upload = new Upload($this->filePath);
-				$fileData = $upload->handle($data);
-				$result = $this->resize($fileData, $data['new_size']);
+			$this->checkImageType($data);
+			$upload = new Upload($this->filePath);
+			$fileData = $upload->handle($data);
+			$result = $this->resize($fileData, $data);
 
-				return $result;
-			}
-
-		} catch (ImageUploaderException $e) {
+			return $result;
+			
+		} catch (InvalidImageTypeException $e) {
 			throw $e;
 		}
 	}
 
 	/**
-	 * Resizing the image
-	 * Thumbnail|Mobile|Desktop	
+	 * Resizing the image 	Thumbnail|Mobile|Desktop	
 	 *
 	 * @param array $data
+	 *
 	 * @return array
 	 *
 	 */
@@ -80,15 +81,15 @@ class ImageUploader
 				$result[$key] = $dvalue;
 			}
 		}
-
 		return $result;	
 	}
 
 	/**
 	 * Set width and height
 	 *
-	 * @param int $width
-	 * @param int $height
+	 * @param int|null $width
+	 * @param int|null $height
+	 *
 	 * @return array
 	 *
 	 */
@@ -104,8 +105,9 @@ class ImageUploader
 	/**
 	 * Set width and height
 	 *
-	 * @param int $width
-	 * @param int $height
+	 * @param int|null $width
+	 * @param int|null $height
+	 *
 	 * @return array
 	 *
 	 */
@@ -121,8 +123,9 @@ class ImageUploader
 	/**
 	 * Set width and height
 	 *
-	 * @param int $width
-	 * @param int $height
+	 * @param int|null $width
+	 * @param int|null $height
+	 *
 	 * @return array
 	 *
 	 */
@@ -136,9 +139,9 @@ class ImageUploader
 	}
 
 	/**
-	 * Get
-	 * @return array
+	 * Get all size
 	 *
+	 * @return array
 	 */
 	public function get()
 	{
@@ -150,6 +153,7 @@ class ImageUploader
 	 * Re-arrange the array	
 	 *
 	 * @param array $data
+	 *
 	 * @return array
 	 *
 	 */
@@ -161,7 +165,6 @@ class ImageUploader
                 $data[$vkey][$key] = $vvalue;
             }
         }
-
 	    return $data;
 	}
 
@@ -169,6 +172,7 @@ class ImageUploader
 	 * Validate image
 	 *
 	 * @param array $data
+	 *
 	 * @return boolean
 	 *
 	 */
@@ -187,7 +191,6 @@ class ImageUploader
 		if(!in_array($file_mime, $allowed_ext)){
 			throw InvalidImageTypeException::checkMimeType($file_mime);
 		}
-
 		return TRUE;
 	}
 
