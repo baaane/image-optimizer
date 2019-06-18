@@ -1,6 +1,6 @@
 <?php
 
-namespace Library\Baaane\ImageUploader\Action;
+namespace Baaane\ImageUploader\Action;
 
 use Exception;
 use Library\Baaane\ImageUploader\Core\Upload;
