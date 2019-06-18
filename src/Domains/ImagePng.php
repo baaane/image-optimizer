@@ -1,6 +1,6 @@
 <?php
 
-namespace Library\Baaane\ImageUploader\Domains;
+namespace Baaane\ImageUploader\Domains;
 
 class ImagePng
 {

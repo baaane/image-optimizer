@@ -1,6 +1,6 @@
 <?php
 
-namespace Library\Baaane\ImageUploader\Exceptions;
+namespace Baaane\ImageUploader\Exceptions;
 
 class InvalidImageTypeException extends \Exception
 {

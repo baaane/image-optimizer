@@ -1,8 +1,8 @@
 <?php
 
-namespace Library\Baaane\ImageUploader\Action;
+namespace Baaane\ImageUploader\Action;
 
-use Library\Baaane\ImageUploader\Traits\ImageTrait;
+use Baaane\ImageUploader\Traits\ImageTrait;
 
 abstract class BaseAction
 {

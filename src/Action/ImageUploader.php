@@ -3,15 +3,15 @@
 namespace Baaane\ImageUploader\Action;
 
 use Exception;
-use Library\Baaane\ImageUploader\Core\Upload;
+use Baaane\ImageUploader\Core\Upload;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Library\Baaane\ImageUploader\Action\MobileImageSize;
-use Library\Baaane\ImageUploader\Action\DesktopImageSize;
-use Library\Baaane\ImageUploader\Action\ThumbnailImageSize;
-use Library\Baaane\ImageUploader\Builder\ReflectionClassBuilder;
-use Library\Baaane\ImageUploader\Exceptions\ImageUploaderException;
-use Library\Baaane\ImageUploader\Exceptions\InvalidImageTypeException;
+use Baaane\ImageUploader\Action\MobileImageSize;
+use Baaane\ImageUploader\Action\DesktopImageSize;
+use Baaane\ImageUploader\Action\ThumbnailImageSize;
+use Baaane\ImageUploader\Builder\ReflectionClassBuilder;
+use Baaane\ImageUploader\Exceptions\ImageUploaderException;
+use Baaane\ImageUploader\Exceptions\InvalidImageTypeException;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 class ImageUploader

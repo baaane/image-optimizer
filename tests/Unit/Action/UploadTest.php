@@ -2,7 +2,7 @@
 
 use Tests\TestCase;
 use \Mockery as Mockery;
-use Library\Baaane\ImageUploader\Core\Upload;
+use Baaane\ImageUploader\Core\Upload;
 
 class UploadTest extends TestCase
 {	
