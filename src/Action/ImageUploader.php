@@ -5,12 +5,14 @@ namespace Library\Baaane\ImageUploader\Action;
 use Exception;
 use Library\Baaane\ImageUploader\Core\Upload;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Library\Baaane\ImageUploader\Action\MobileImageSize;
 use Library\Baaane\ImageUploader\Action\DesktopImageSize;
 use Library\Baaane\ImageUploader\Action\ThumbnailImageSize;
 use Library\Baaane\ImageUploader\Builder\ReflectionClassBuilder;
 use Library\Baaane\ImageUploader\Exceptions\ImageUploaderException;
 use Library\Baaane\ImageUploader\Exceptions\InvalidImageTypeException;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 class ImageUploader
 {
@@ -56,8 +58,8 @@ class ImageUploader
 			$result = $this->resize($fileData, $data);
 
 			return $result;
-			
-		} catch (InvalidImageTypeException $e) {
+	
+		} catch (Exception $e) {
 			throw $e;
 		}
 	}
@@ -179,18 +181,21 @@ class ImageUploader
 	public function checkImageType($data)
 	{
 		$allowed_ext = [
-			'image/jpeg',
-			'image/png',
-			'image/gif'
+			'jpeg',
+			'png',
+			'gif'
 		];
 
+    	$uploadFile = new UploadedFile($data['tmp_name'], $data['name']);
+    	
 		// Get image file extension
-    	$file_mime = mime_content_type($data['tmp_name']);
+    	$file_mime = $uploadFile->guessExtension();
 
     	// Validate file input to check if is with valid extension
 		if(!in_array($file_mime, $allowed_ext)){
 			throw InvalidImageTypeException::checkMimeType($file_mime);
 		}
+
 		return TRUE;
 	}
 
