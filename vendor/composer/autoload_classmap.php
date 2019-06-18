@@ -6,4 +6,18 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Baaane\\ImageUploader\\Action\\BaseAction' => $baseDir . '/src/Action/BaseAction.php',
+    'Baaane\\ImageUploader\\Action\\DesktopImageSize' => $baseDir . '/src/Action/DesktopImageSize.php',
+    'Baaane\\ImageUploader\\Action\\ImageUploader' => $baseDir . '/src/Action/ImageUploader.php',
+    'Baaane\\ImageUploader\\Action\\MobileImageSize' => $baseDir . '/src/Action/MobileImageSize.php',
+    'Baaane\\ImageUploader\\Action\\ThumbnailImageSize' => $baseDir . '/src/Action/ThumbnailImageSize.php',
+    'Baaane\\ImageUploader\\Builder\\ReflectionClassBuilder' => $baseDir . '/src/Builder/ReflectionClassBuilder.php',
+    'Baaane\\ImageUploader\\Core\\Upload' => $baseDir . '/src/Core/Upload.php',
+    'Baaane\\ImageUploader\\Domains\\ImageGif' => $baseDir . '/src/Domains/ImageGif.php',
+    'Baaane\\ImageUploader\\Domains\\ImageJpeg' => $baseDir . '/src/Domains/ImageJpeg.php',
+    'Baaane\\ImageUploader\\Domains\\ImagePng' => $baseDir . '/src/Domains/ImagePng.php',
+    'Baaane\\ImageUploader\\Exceptions\\ImageUploaderException' => $baseDir . '/src/Exceptions/ImageUploaderException.php',
+    'Baaane\\ImageUploader\\Exceptions\\InvalidImageTypeException' => $baseDir . '/src/Exceptions/InvalidImageTypeException.php',
+    'Baaane\\ImageUploader\\Exceptions\\UploadHandlerException' => $baseDir . '/src/Exceptions/UploadHandlerException.php',
+    'Baaane\\ImageUploader\\Traits\\ImageTrait' => $baseDir . '/src/Traits/ImageTrait.php',
 );
