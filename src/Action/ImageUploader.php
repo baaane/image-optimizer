@@ -35,7 +35,7 @@ class ImageUploader
      */
     public function __construct($filePath = NULL)
     {
-        $this->filePath = $filePath;
+        $this->filePath = rtrim($filePath);
     }
 
 	/**
@@ -47,9 +47,14 @@ class ImageUploader
 	 */
 	public function upload(array $data)
 	{	
-		if($data['error']){
+		if($data['error'] > 0 ){
 			throw new ImageUploaderException($data['error']);
 		}
+
+		if(!isset($data['error']) ){
+			throw ImageUploaderException::noErrorKey();
+		}
+
 		try {
 
 			$this->checkImageType($data);

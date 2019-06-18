@@ -54,7 +54,7 @@ class Upload
                 'name' => $name.$ext,
                 'type' => $data['type'],
                 'tmp_name' => $data['tmp_name'],
-                'path' => $this->filePath
+                'path' => $this->filePath.'/'
             ];
             
             return $data_result;

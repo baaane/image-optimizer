@@ -10,7 +10,7 @@ class ImageUploadTest extends TestCase
     {
     	parent::setUp();
     	
-    	$this->directory = __DIR__. '/_files/';
+    	$this->directory = __DIR__. '/_files';
 
         $_FILES = [
             'filename' => [

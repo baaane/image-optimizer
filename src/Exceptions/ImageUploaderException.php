@@ -25,4 +25,9 @@ class ImageUploaderException extends \Exception
 
         parent::__construct($message);
     }
+
+    public static function noErrorKey()
+    {
+        return new static("Required error key!");
+    }
 }
