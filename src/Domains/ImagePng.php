@@ -21,15 +21,21 @@ class ImagePng
 	 * Create new image
 	 *
 	 * @param string $new
-	 * @param string $name
 	 * @param string $final
 	 * @return string
 	 *
 	 */
-	public function create($new, $name, $final)
+	public function create($new, $final)
 	{
-		imagepng($new, $final);
+		// Create new empty image
+		$new_image = imagecreate($new['new_width'], $new['new_height']);
+
+		// Resample old into new
+		imagecopyresampled($new_image, $new['image'], 0, 0, 0, 0, $new['new_width'], $new['new_height'], $new['old_width'], $new['old_height']);
+
+		imagepng($new_image, $final);
 		$data = rtrim($final);
+		
 		return $data;
 	}
 }

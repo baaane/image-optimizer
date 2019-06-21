@@ -51,7 +51,7 @@ trait ImageTrait
 		try {
 			$type 	= mime_content_type($name);
 			$image 	= ReflectionClassBuilder::create($this->imageTypes[$type]);
-			$data 	= $image->create($new, $name, $final);
+			$data 	= $image->create($new, $final);
 			
 			return $data;
 		} catch (\Exception $e) {

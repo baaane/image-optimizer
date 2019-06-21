@@ -3,12 +3,13 @@
 namespace Baaane\ImageUploader\Action;
 
 use Exception;
+use Illuminate\Http\Request;
 use Baaane\ImageUploader\Core\Upload;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Baaane\ImageUploader\Action\MobileImageSize;
 use Baaane\ImageUploader\Action\DesktopImageSize;
 use Baaane\ImageUploader\Action\ThumbnailImageSize;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Baaane\ImageUploader\Builder\ReflectionClassBuilder;
 use Baaane\ImageUploader\Exceptions\ImageUploaderException;
 use Baaane\ImageUploader\Exceptions\InvalidImageTypeException;
@@ -59,6 +60,7 @@ class ImageUploader
 
 			$this->checkImageType($data);
 			$upload = new Upload($this->filePath);
+
 			$fileData = $upload->handle($data);
 			$result = $this->resize($fileData, $data);
 
@@ -89,6 +91,21 @@ class ImageUploader
 			}
 		}
 		return $result;	
+	}
+
+	/**
+	 * Set path
+	 *
+	 * @param string $path
+	 *
+	 * @return string
+	 *
+	 */
+	public function setPath($filePath = NULL)
+	{
+		$this->filePath = (isset($filePath) ?: NULL);
+
+		return $this;
 	}
 
 	/**

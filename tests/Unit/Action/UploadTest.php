@@ -23,7 +23,7 @@ class UploadTest extends TestCase
             ]
         ];
 
-	    $this->mocked_upload = Mockery::mock(new Upload($this->directory));
+	    $this->mocked_upload = new Upload($this->directory);
     }
 
     /**

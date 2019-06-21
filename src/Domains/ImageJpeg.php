@@ -21,15 +21,21 @@ class ImageJpeg
 	 * Create new image
 	 *
 	 * @param string $new
-	 * @param string $name
 	 * @param string $final
 	 * @return string
 	 *
 	 */
-	public function create($new, $name, $final)
+	public function create($new, $final)
 	{	
-		imagejpeg($new, $final, 85);
+		// Create new empty image
+		$new_image = imagecreatetruecolor($new['new_width'], $new['new_height']);
+
+		// Resample old into new
+		imagecopyresampled($new_image, $new['image'], 0, 0, 0, 0, $new['new_width'], $new['new_height'], $new['old_width'], $new['old_height']);
+
+		imagejpeg($new_image, $final, 85);
 		$data = rtrim($final);
+		
 		return $data;
 	}
 }

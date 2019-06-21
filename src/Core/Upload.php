@@ -13,7 +13,7 @@ class Upload
      */
     public function __construct($filePath)
     {   
-        if(isset($filePath)){
+        if(isset($filePath) && (!empty($filePath)) ){
             if(!is_dir($filePath)){
                 mkdir($filePath, 0775, true);
                 chown($filePath, 'www-data');
@@ -21,7 +21,7 @@ class Upload
             }
             $path = $filePath;        
         }else{
-            $defaultPath = dirname($_SERVER['DOCUMENT_ROOT']).'/storage/app/public/';
+            $defaultPath = dirname($_SERVER['DOCUMENT_ROOT']).'/uploads/';
             if(!is_dir($defaultPath)){
                 mkdir($defaultPath, 0775, true);
                 chown($defaultPath, 'www-data');
