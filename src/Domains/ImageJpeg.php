@@ -2,34 +2,23 @@
 
 namespace Baaane\ImageUploader\Domains;
 
-class ImageJpeg 
+use Baaane\ImageUploader\Domains\BaseImageAbstract;
+
+class ImageJpeg extends BaseImageAbstract
 {
+	
 	/**
-	 * Get the image information 
-	 *
-	 * @param string $tmp_name
-	 * @return object
-	 *
-	 */
-	public function info($tmp_name)
-	{
-		$data = imagecreatefromjpeg($tmp_name);
-		return $data;
-	}
+     * @var string $info_parameter 
+     */
+	protected $info_parameter = "imagecreatefromjpeg";
 
 	/**
-	 * Create new image
-	 *
-	 * @param string $new
-	 * @param string $final
-	 * @return string
-	 *
-	 */
-	public function create($new, $final)
-	{	
-		imagejpeg($new, $final, 85);
-		$data = rtrim($final);
-		
-		return $data;
-	}
+     * @var string $create_parameter 
+     */
+	protected $create_parameter = "imagejpeg";
+
+	/**
+     * @var string $quality 
+     */
+	protected $quality = 85;
 }

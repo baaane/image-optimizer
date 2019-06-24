@@ -29,15 +29,24 @@ class ImageUploader
 		'desktop'	=> DesktopImageSize::class,
 	];
 
-    /**
-     * File path
-     *
-     * @param string $filePath
+	/**
+     * @var string|null $filepath 
      */
-    public function __construct($filePath = NULL)
-    {
-        $this->filePath = rtrim($filePath);
-    }
+	private $filepath = NULL;
+
+	/**
+	 * Set path
+	 *
+	 * @param string $path
+	 *
+	 * @return string
+	 *
+	 */
+	public function setPath($filepath)
+	{
+		$this->filepath = (isset($filepath) ? $filepath : NULL);
+		return $this;
+	}
 
 	/**
 	 * Upload the image
@@ -57,11 +66,10 @@ class ImageUploader
 		}
 
 		try {
-
 			$this->checkImageType($data);
-			$upload = new Upload($this->filePath);
-			$fileData = $upload->handle($data);
-			$result = $this->resize($fileData, $data);
+			$uploader 	= new Upload($this->filepath);
+			$fileData 	= $uploader->handle($data);
+			$result 	= $this->resize($fileData, $data);
 
 			return $result;
 	
@@ -73,7 +81,7 @@ class ImageUploader
 	/**
 	 * Resizing the image 	Thumbnail|Mobile|Desktop	
 	 *
-	 * @param array $data
+	 * @param array $fileData
 	 *
 	 * @return array
 	 *
@@ -92,20 +100,6 @@ class ImageUploader
 		return $result;	
 	}
 
-	/**
-	 * Set path
-	 *
-	 * @param string $path
-	 *
-	 * @return string
-	 *
-	 */
-	public function setPath($filePath = NULL)
-	{
-		$this->filePath = (isset($filePath) ?: NULL);
-
-		return $this;
-	}
 
 	/**
 	 * Set width and height
@@ -162,6 +156,17 @@ class ImageUploader
 	}
 
 	/**
+	 * Delete original file
+	 *
+	 */
+	public function deleteOriginalFile()
+	{
+		// $this->delete = @unlink($this->fileData['path'].$this->fileData['name']);
+
+		// return $this;
+	}
+
+	/**
 	 * Get all size
 	 *
 	 * @return array
@@ -170,7 +175,6 @@ class ImageUploader
 	{
 		return $data = $this->result;
 	}
-
 
 	/**
 	 * Re-arrange the array	

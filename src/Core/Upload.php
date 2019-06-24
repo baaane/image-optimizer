@@ -9,19 +9,19 @@ class Upload
     /**
      * File path
      *
-     * @param string $filePath
+     * @param string $filepath
      */
-    public function __construct($filePath)
+    public function __construct($filepath)
     {   
-        if(isset($filePath) && (!empty($filePath)) ){
-            if(!is_dir($filePath)){
-                mkdir($filePath, 0775, true);
-                chown($filePath, 'www-data');
-                chmod($filePath, 0755 );
+        if(isset($filepath) && (!empty($filepath)) ){
+            if(!is_dir($filepath)){
+                mkdir($filepath, 0775, true);
+                chown($filepath, 'www-data');
+                chmod($filepath, 0755 );
             }
-            $path = $filePath;        
+            $path = $filepath;        
         }else{
-            $defaultPath = dirname($_SERVER['DOCUMENT_ROOT']).'/uploads/';
+            $defaultPath = dirname($_SERVER['DOCUMENT_ROOT']).'/uploads';
             if(!is_dir($defaultPath)){
                 mkdir($defaultPath, 0775, true);
                 chown($defaultPath, 'www-data');
@@ -30,7 +30,7 @@ class Upload
             $path = $defaultPath;
         }
 
-        $this->filePath = $path;
+        $this->filepath = $path;
     }
 
     /**
@@ -50,11 +50,12 @@ class Upload
 
         try{
 
+            $this->upload($data['tmp_name'], $this->filepath.'/'.$name.$ext);
             $data_result = [
                 'name' => $name.$ext,
                 'type' => $data['type'],
                 'tmp_name' => $data['tmp_name'],
-                'path' => $this->filePath.'/'
+                'path' => $this->filepath.'/'
             ];
             
             return $data_result;
