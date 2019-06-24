@@ -9,6 +9,12 @@ use Baaane\ImageUploader\Builder\ReflectionClassBuilder;
 
 trait ImageTrait
 {
+	/**
+	 * Different class sizes
+	 *
+	 * @var array $imageTypes
+	 *
+	 */
 	private $imageTypes = [
 		'image/jpeg' 	=> ImageJpeg::class,
 		'image/png' 	=> ImagePng::class,

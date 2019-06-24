@@ -2,34 +2,23 @@
 
 namespace Baaane\ImageUploader\Domains;
 
-class ImageGif
+use Baaane\ImageUploader\Domains\BaseImageAbstract;
+
+class ImageGif extends BaseImageAbstract
 {
+	
 	/**
-	 * Get the image information 
-	 *
-	 * @param string $tmp_name
-	 * @return object
-	 *
-	 */
-	public function info($tmp_name)
-	{
-		$data = imagecreatefromgif($tmp_name);
-		return $data;
-	}
+     * @var string $info_parameter 
+     */
+	protected $info_parameter = "imagecreatefromgif";
 
 	/**
-	 * Create new image
-	 *
-	 * @param string $new
-	 * @param string $final
-	 * @return string
-	 *
-	 */
-	public function create($new, $final)
-	{
-		imagegif($new, $final);
-		$data = rtrim($final);
-		
-		return $data;
-	}
+     * @var string $create_parameter 
+     */
+	protected $create_parameter = "imagegif";
+
+	/**
+     * @var string $quality 
+     */
+	protected $quality = 100;
 }

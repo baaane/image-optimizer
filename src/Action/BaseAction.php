@@ -9,11 +9,30 @@ abstract class BaseAction
 	use ImageTrait;
 
 	/**
-     * Constant variable 
+     * @var string $name 
      */
-	const THUMBNAIL = 'thumbnail';
-	const MOBILE 	= 'mobile';
-	const DESKTOP 	= 'desktop';
+	protected $name;
+
+	/**
+     * @var string $width 
+     */
+	protected $width;
+
+	/**
+     * @var string $height 
+     */
+	protected $height;
+
+	/**
+     * Get new size
+     *
+     * @return string
+     */
+	public function get($data, $size = [])
+	{
+		$data_result = $this->create($data, $size);
+		return $data_result;
+	}
 
 	/**
      * Creating new size
@@ -25,13 +44,14 @@ abstract class BaseAction
      *
      * @return array $data
      */
-	public function create($data, $size, $defaultSize, $name)
+	public function create($data, $size)
 	{
 		// Get image info
 		$image 	= $this->getImageInfo($data['tmp_name']);
 
 		//Set and get final width and height
-		$size = $this->setSize($size, $defaultSize, $name);
+		$defaultSize = $this->setDefaultSize($this->width, $this->height);
+		$size = $this->setSize($size, $defaultSize, $this->name);
 		$max_width 	= $size['width'];
 		$max_height = $size['height'];
 
@@ -51,7 +71,7 @@ abstract class BaseAction
 		imagecopyresampled($new, $image, 0, 0, 0, 0, $new_width, $new_height, $old_width, $old_height);
 
 		// Final image
-		$final 	= $data['path'].$name.'_'.$data['name'];
+		$final 	= $data['path'].$this->name.'_'.$data['name'];
 
 		// Create final image
 		$data 	= $this->createImage($new, $data['tmp_name'], $final);

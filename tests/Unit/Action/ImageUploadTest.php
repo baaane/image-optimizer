@@ -144,6 +144,46 @@ class ImageUploadTest extends TestCase
         $this->assertTrue(count($result) > 0);
     }
 
+    /**
+     * @test
+     */
+    public function it_should_set_path_and_upload()
+    {   
+        $data = $this->mocked_upload->reArray($_FILES['filename']);
+        $result = [];
+        for ($i=0; $i < count($data) ; $i++) { 
+            $result[] = $this->mocked_upload->setPath($this->directory)->upload($data[$i]);
+        }
+
+        for ($i=0; $i < count($result); $i++) { 
+            @unlink($result[$i]['thumbnail']);
+            @unlink($result[$i]['mobile']);
+            @unlink($result[$i]['desktop']);
+        }
+
+        $this->assertTrue(count($result) > 0);
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_delete_original_file()
+    {   
+        $data = $this->mocked_upload->reArray($_FILES['filename']);
+        $result = [];
+        for ($i=0; $i < count($data) ; $i++) { 
+            $result[] = $this->mocked_upload->setPath($this->directory)->upload($data[$i]);
+        }
+
+        for ($i=0; $i < count($result); $i++) { 
+            @unlink($result[$i]['thumbnail']);
+            @unlink($result[$i]['mobile']);
+            @unlink($result[$i]['desktop']);
+        }
+
+        $this->assertTrue(count($result) > 0);
+    }
+
    	/**
 	 * will remove the uploaded images
 	 */
