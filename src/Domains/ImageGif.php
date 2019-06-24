@@ -27,13 +27,7 @@ class ImageGif
 	 */
 	public function create($new, $final)
 	{
-		// Create new empty image
-		$new_image = imagecreatetruecolor($new['new_width'], $new['new_height']);
-
-		// Resample old into new
-		imagecopyresampled($new_image, $new['image'], 0, 0, 0, 0, $new['new_width'], $new['new_height'], $new['old_width'], $new['old_height']);
-
-		imagegif($new_image, $final, 100);
+		imagegif($new, $final);
 		$data = rtrim($final);
 		
 		return $data;

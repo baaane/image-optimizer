@@ -60,7 +60,6 @@ class ImageUploader
 
 			$this->checkImageType($data);
 			$upload = new Upload($this->filePath);
-
 			$fileData = $upload->handle($data);
 			$result = $this->resize($fileData, $data);
 
