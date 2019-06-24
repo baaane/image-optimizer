@@ -42,13 +42,13 @@ abstract class BaseAction
 		$new_width  = ceil($scale*$old_width);
 		$new_height = ceil($scale*$old_height);
 
-		$new = [
-			'image'	=> $image,
-			'new_width' => $new_width,
-			'new_height' => $new_height,
-			'old_width' => $old_width,
-			'old_height' => $old_height,
-		];
+		// Create new empty image
+		$new = imagecreatetruecolor($new_width, $new_height);
+		imagealphablending( $new, false );
+		imagesavealpha( $new, true );
+
+		// Resample old into new
+		imagecopyresampled($new, $image, 0, 0, 0, 0, $new_width, $new_height, $old_width, $old_height);
 
 		// Final image
 		$final 	= $data['path'].$name.'_'.$data['name'];

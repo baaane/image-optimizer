@@ -27,13 +27,7 @@ class ImageJpeg
 	 */
 	public function create($new, $final)
 	{	
-		// Create new empty image
-		$new_image = imagecreatetruecolor($new['new_width'], $new['new_height']);
-
-		// Resample old into new
-		imagecopyresampled($new_image, $new['image'], 0, 0, 0, 0, $new['new_width'], $new['new_height'], $new['old_width'], $new['old_height']);
-
-		imagejpeg($new_image, $final, 85);
+		imagejpeg($new, $final, 85);
 		$data = rtrim($final);
 		
 		return $data;
