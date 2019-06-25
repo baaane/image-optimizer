@@ -30,28 +30,45 @@ composer require spatie/image-optimizer
 ## Instructions
 The filenames can be randomized or customized by the user.
 
-#### Customizable Name (OPTIONAL)
+#### UploadFile from Laravel's request. (OPTIONAL)
+```php
+$imageUploader->uploadRequestFile($request->file('filename'));
 ```
+
+#### Set File Path - use it before upload() (OPTIONAL)
+```php
+$imageUploader->setPath()->upload();
+```
+
+#### Customizable Name (OPTIONAL)
+```php
 $new_name = [
     'new_name' => 'new_name1'
 ];
-
 ```
 
 #### Customizable Size (FORMAT: WIDTH, HEIGHT) (OPTIONAL)
-```
-
+```php
 $size = [
     'size' => $imageUploader->setThumbnailSize(width,height)
                             ->setMobileSize(width,height)
                             ->setDesktopSize(width,height)
                             ->get(), 
 ];
+```
 
+#### For multiple uploads, use this line of code for re-arrange the array before pass it to imageUploader->upload():
+```php
+$data = $imageUploader->reArray($data_merge);
+```
+
+#### Delete Original File - use it before upload() (OPTIONAL)
+```php
+$imageUploader->deleteOriginalFile()->upload();
 ```
 
 #### Parameter for upload should be an array. It should look like this:
-```
+```php
 [
     'name' => 'uploaded-image.jpg',
     'type' => 'image/jpeg',
@@ -108,12 +125,12 @@ $data = array_merge($_FILES['filename'], $new_name, $new_size);
 // OPTIONAL PARAMETER: desired path of uploaded files
 $path = __DIR__. '/_files';
 
-$imageUploader = new ImageUploader($path);
-$imageUploader->upload($data);
+$imageUploader = new ImageUploader();
+$imageUploader->setPath($path)->upload($data);
 ```
 
 ### Sample Multiple Upload
-````
+```php
 $_FILES = [
     'filename' => [
         'name' => [
@@ -161,128 +178,15 @@ $size = [
 // Then merge
 $data_merge = array_merge($_FILES['filename'], $new_name, $new_size);
 
-// Re-array the merge data
+// Re-arrange the merge data array
 $data = $imageUploader->reArray($data_merge);
 
 // OPTIONAL PARAMETER: desired path of uploaded files
 $path = __DIR__. '/_files';
 
-$imageUploader = new ImageUploader($path);
-$imageUploader->upload($data);
+$imageUploader = new ImageUploader();
+$imageUploader->setPath($path)->upload($data);
 ````
-
-#### For multiple uploads, use this line of code for re-arrange the array before passing the array to imageUploader->upload:
-```
-$data = $imageUploader->reArray($data_merge);
-```
-From:
-```
-[
-    'name' => [
-        0 => 'uploaded-image.jpg',
-        1 => 'uploaded-image1.jpg',
-    ],
-    'type' => [
-        0 => 'image/jpeg',
-        1 => 'image/jpeg',
-    ],
-    'size' => [
-        0 => 542,
-        1 => 542,
-    ],
-    'tmp_name' => [
-        0 => __DIR__. '/_files/test.jpg',
-        1 => __DIR__. '/_files/test1.jpg',
-    ],
-    'error' => [
-        0 => 0,
-        1 => 0,
-    ],
-    'new_name' => [
-        0 => 'new_name1',
-        1 => 'new_name2',
-    ],
-    'new_size' => [
-        0 => [
-            'thumbnail' => [
-                'width' => 200,
-                'height' => 200
-            ]
-            'desktop' => [
-                'width' => 800,
-                'height' => 750
-            ],
-            'mobile' => [
-                'width' => 345,
-                'height' => 789
-            ]
-        ],
-        1 => [
-            'thumbnail' => [
-                'width' => 0,
-                'height' => 0
-            ]
-            'desktop' => [
-                'width' => 0,
-                'height' => 0
-            ]
-            'mobile' => [
-                'width' => 345,
-                'height' => 789
-            ]
-        ]
-    ]
-];
-```
-To:
-```
-[
-  0 => [
-    'name' => 'uploaded-image.jpg'
-    'type' => 'image/jpeg'
-    'size' => 542
-    'tmp_name' => __DIR__. '/_files/test.jpg',
-    'error' => 0
-    'new_name' => 'new_name1'
-    'new_size' => [
-        'thumbnail' => [
-            'width' => 200,
-            'height' => 200
-        ]
-        'mobile' => [
-            'width' => 691,
-            'height' => 961
-        ]
-        'desktop' => [
-            'width' => 1920,
-            'height' => 1080
-        ]
-    ]
-  ]
-  1 => [
-    'name' => 'uploaded-image1.jpg'
-    'type' => 'image/jpeg'
-    'size' => 542
-    'tmp_name' => __DIR__. '/_files/test.jpg'
-    'error' => 0
-    'new_name' => 'new_name1'
-    'new_size' => [
-        'thumbnail' => [
-            'width' => 200,
-            'height' => 200
-        ]
-        'mobile' => [
-            'width' => 691,
-            'height' => 961
-        ]
-        'desktop' => [
-            'width' => 1920,
-            'height' => 1080
-        ]
-    ]
-  ]
-]
-```
 
 #### Sample retrieve files after uploading. Return an array upon success.
 ```php

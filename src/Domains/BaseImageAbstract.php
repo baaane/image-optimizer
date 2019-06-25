@@ -22,13 +22,13 @@ abstract class BaseImageAbstract
 	/**
 	 * Get the image information 
 	 *
-	 * @param string $tmp_name
+	 * @param string $filepath
 	 * @return object
 	 *
 	 */
-	public function info($tmp_name)
+	public function info($filepath)
 	{
-		$data = call_user_func($this->info_parameter, $tmp_name);
+		$data = call_user_func($this->info_parameter, $filepath);
 		return $data;
 	}
 
@@ -40,10 +40,21 @@ abstract class BaseImageAbstract
 	 * @return string
 	 *
 	 */
-	public function create($new, $final)
+	public function create($img, $final)
 	{
+		// Create new empty image
+		$new = imagecreatetruecolor($img['new_width'], $img['new_height']);
+
+		imagealphablending( $new, false );
+		imagesavealpha( $new, true );
+
+		// Resample old into new
+		imagecopyresampled($new, $img['image'], 0, 0, 0, 0, $img['new_width'], $img['new_height'], $img['old_width'], $img['old_height']);
+
 		call_user_func_array($this->create_parameter, array($new, $final, $this->quality));
+
 		$data = rtrim($final);
+
 		return $data;
 	}
 }

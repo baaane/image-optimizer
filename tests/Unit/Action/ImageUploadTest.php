@@ -1,8 +1,9 @@
 <?php
 
 use Tests\TestCase;
-use \Mockery as Mockery;
+use Illuminate\Http\Request;
 use Baaane\ImageUploader\Action\ImageUploader;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ImageUploadTest extends TestCase
 {	
@@ -37,7 +38,7 @@ class ImageUploadTest extends TestCase
             ]
         ];
 
-	    $this->mocked_upload = Mockery::mock(new ImageUploader($this->directory));
+	    $this->mocked_upload = new ImageUploader();
     }
 
     /**
@@ -167,12 +168,35 @@ class ImageUploadTest extends TestCase
     /**
      * @test
      */
-    public function it_should_delete_original_file()
+    public function it_should_delete_original_file_after_upload()
     {   
         $data = $this->mocked_upload->reArray($_FILES['filename']);
         $result = [];
         for ($i=0; $i < count($data) ; $i++) { 
-            $result[] = $this->mocked_upload->setPath($this->directory)->upload($data[$i]);
+            $result[] = $this->mocked_upload->setPath($this->directory)->deleteOriginalFile()->upload($data[$i]);
+        }
+
+        for ($i=0; $i < count($result); $i++) { 
+            @unlink($result[$i]['thumbnail']);
+            @unlink($result[$i]['mobile']);
+            @unlink($result[$i]['desktop']);
+        }
+
+        $this->assertTrue(count($result) > 0);
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_accept_file_request()
+    {   
+
+        $request = app(Request::class);
+        $request->files->replace($_FILES);
+        $data = $request->file('filename');
+        $result = [];
+        for ($i=0; $i < count($data) ; $i++) { 
+            $result[] = $this->mocked_upload->setPath($this->directory)->uploadRequestFile($data[$i]);
         }
 
         for ($i=0; $i < count($result); $i++) { 

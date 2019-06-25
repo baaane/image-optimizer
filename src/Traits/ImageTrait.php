@@ -29,12 +29,12 @@ trait ImageTrait
 	 * @return array
 	 *
 	 */
-	public function getImageInfo($tmp_name)
+	public function getImageInfo($filepath)
 	{
 		try {
-			$type 	= mime_content_type($tmp_name);
+			$type 	= mime_content_type($filepath);
 			$image 	= ReflectionClassBuilder::create($this->imageTypes[$type]);
-			$data 	= $image->info($tmp_name);
+			$data 	= $image->info($filepath);
 
 			return $data;
 		} catch (\Exception $e) {
@@ -46,18 +46,18 @@ trait ImageTrait
 	 * Creating new image
 	 * Thumbnail|Mobile|Desktop
 	 *
-	 * @param string $new
-	 * @param string $name
+	 * @param string $img
+	 * @param string $filepath
 	 * @param string $final
 	 * @return array
 	 *
 	 */
-	public function createImage($new, $name, $final)
+	public function createImage($img, $filepath, $final)
 	{
 		try {
-			$type 	= mime_content_type($name);
+			$type 	= mime_content_type($filepath);
 			$image 	= ReflectionClassBuilder::create($this->imageTypes[$type]);
-			$data 	= $image->create($new, $final);
+			$data 	= $image->create($img, $final);
 			
 			return $data;
 		} catch (\Exception $e) {

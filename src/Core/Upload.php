@@ -52,10 +52,12 @@ class Upload
 
             $this->upload($data['tmp_name'], $this->filepath.'/'.$name.$ext);
             $data_result = [
+                'filename' => $name,
                 'name' => $name.$ext,
                 'type' => $data['type'],
                 'tmp_name' => $data['tmp_name'],
-                'path' => $this->filepath.'/'
+                'path' => $this->filepath.'/',
+                'filepath' => $this->filepath.'/'.$name.$ext
             ];
             
             return $data_result;
