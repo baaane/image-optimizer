@@ -56,5 +56,7 @@ abstract class BaseImageAbstract
 		$data = rtrim($final);
 
 		return $data;
+
+		imagedestroy($new);
 	}
 }
