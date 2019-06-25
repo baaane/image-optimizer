@@ -47,7 +47,7 @@ abstract class BaseAction
 	public function create($data, $size)
 	{
 		// Get image info
-		$image 	= $this->getImageInfo($data['tmp_name']);
+		$image 	= $this->getImageInfo($data['filepath']);
 
 		//Set and get final width and height
 		$defaultSize = $this->setDefaultSize($this->width, $this->height);
@@ -62,19 +62,19 @@ abstract class BaseAction
 		$new_width  = ceil($scale*$old_width);
 		$new_height = ceil($scale*$old_height);
 
-		// Create new empty image
-		$new = imagecreatetruecolor($new_width, $new_height);
-		imagealphablending( $new, false );
-		imagesavealpha( $new, true );
-
-		// Resample old into new
-		imagecopyresampled($new, $image, 0, 0, 0, 0, $new_width, $new_height, $old_width, $old_height);
+		$img = [
+			'new_width' => $new_width,
+			'new_height' => $new_height,
+			'old_width'	=> $old_width,
+			'old_height' => $old_height,
+			'image' => $image
+		];
 
 		// Final image
 		$final 	= $data['path'].$this->name.'_'.$data['name'];
 
 		// Create final image
-		$data 	= $this->createImage($new, $data['tmp_name'], $final);
+		$data 	= $this->createImage($img, $data['filepath'], $final);
 
 		return $data;
 	}

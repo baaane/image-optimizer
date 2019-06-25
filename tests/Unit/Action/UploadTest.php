@@ -1,7 +1,6 @@
 <?php
 
 use Tests\TestCase;
-use \Mockery as Mockery;
 use Baaane\ImageUploader\Core\Upload;
 
 class UploadTest extends TestCase

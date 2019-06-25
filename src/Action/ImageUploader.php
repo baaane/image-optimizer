@@ -35,6 +35,16 @@ class ImageUploader
 	private $filepath = NULL;
 
 	/**
+     * @var boolean $deleteFile 
+     */
+	private $deleteFile = FALSE;
+
+	/**
+     * @var boolean $changeBackground 
+     */
+	private $changeBackground = FALSE;
+
+	/**
 	 * Set path
 	 *
 	 * @param string $path
@@ -66,12 +76,17 @@ class ImageUploader
 		}
 
 		try {
+
 			$this->checkImageType($data);
 			$uploader 	= new Upload($this->filepath);
-			$fileData 	= $uploader->handle($data);
-			$result 	= $this->resize($fileData, $data);
-
-			return $result;
+			$filedata 	= $uploader->handle($data);
+			$data = $this->resize($filedata, $data);
+			
+			if($this->deleteFile === TRUE) {
+				$this->deleteUploadedFile($filedata);
+			}
+			
+			return $data;
 	
 		} catch (Exception $e) {
 			throw $e;
@@ -79,18 +94,38 @@ class ImageUploader
 	}
 
 	/**
+	 * Upload the image
+	 *
+	 * @param array $data
+	 * @return array
+	 *
+	 */
+	public function uploadRequestFile($data)
+	{	
+		$data = [
+			'name' => $data->getClientOriginalName(),
+	        'type' => $data->getClientMimeType(),
+	        'size' => $data->getClientSize(),
+	        'tmp_name' => $data->getRealPath(),
+	        'error' => $data->getError(),
+		];
+
+		return $result = $this->upload($data);
+	}
+
+	/**
 	 * Resizing the image 	Thumbnail|Mobile|Desktop	
 	 *
-	 * @param array $fileData
+	 * @param array $filedata
 	 *
 	 * @return array
 	 *
 	 */
-	public function resize($fileData, $size)
+	public function resize($filedata, $size)
 	{
 		foreach ($this->imageClassSize as $key => $value) {
 			$builder = ReflectionClassBuilder::create($this->imageClassSize[$key]);
-			$data[] = $builder->get($fileData,$size);
+			$data[] = $builder->get($filedata,$size);
 
 			foreach ($data as $dkey => $dvalue) {
 				$this->image_optimization($dvalue);
@@ -99,7 +134,6 @@ class ImageUploader
 		}
 		return $result;	
 	}
-
 
 	/**
 	 * Set width and height
@@ -156,14 +190,26 @@ class ImageUploader
 	}
 
 	/**
-	 * Delete original file
+	 * Set delete file true
 	 *
+	 * @return boolean
 	 */
 	public function deleteOriginalFile()
 	{
-		// $this->delete = @unlink($this->fileData['path'].$this->fileData['name']);
+		$this->deleteFile = TRUE;
 
-		// return $this;
+		return $this;
+	}
+
+	/**
+	 * Delete original file
+	 *
+	 * @param array $filedata
+	 *
+	 */
+	public function deleteUploadedFile($filedata)
+	{
+		@unlink($filedata['filepath']);
 	}
 
 	/**
@@ -179,7 +225,7 @@ class ImageUploader
 	/**
 	 * Re-arrange the array	
 	 *
-	 * @param array $data
+	 * @param array $data_array
 	 *
 	 * @return array
 	 *
