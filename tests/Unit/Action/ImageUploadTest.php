@@ -38,7 +38,7 @@ class ImageUploadTest extends TestCase
             ]
         ];
 
-	    $this->mocked_upload = new ImageUploader();
+	    $this->mocked_upload = new ImageUploader($this->directory);
     }
 
     /**

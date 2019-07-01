@@ -49,6 +49,19 @@ class ImageUploader
 	 *
 	 * @param string $path
 	 *
+	 *
+	 */
+	public function __construct($filepath)
+	{
+		$this->filepath = (isset($filepath) ? $filepath : NULL);
+	}
+
+
+	/**
+	 * Set path
+	 *
+	 * @param string $path
+	 *
 	 * @return string
 	 *
 	 */
