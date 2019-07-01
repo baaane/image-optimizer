@@ -45,6 +45,17 @@ class ImageUploader
 	private $changeBackground = FALSE;
 
 	/**
+	 * Path
+	 *
+	 * @param string $filepath
+	 *
+	 */
+	public function __construct($filepath)
+	{
+		$this->filepath = (isset($filepath) ? $filepath : NULL);
+	}
+
+	/**
 	 * Set path
 	 *
 	 * @param string $path

@@ -38,7 +38,7 @@ class ImageUploadTest extends TestCase
             ]
         ];
 
-	    $this->mocked_upload = new ImageUploader();
+	    $this->mocked_upload = new ImageUploader($this->directory);
     }
 
     /**
@@ -173,7 +173,7 @@ class ImageUploadTest extends TestCase
         $data = $this->mocked_upload->reArray($_FILES['filename']);
         $result = [];
         for ($i=0; $i < count($data) ; $i++) { 
-            $result[] = $this->mocked_upload->setPath($this->directory)->deleteOriginalFile()->upload($data[$i]);
+            $result[] = $this->mocked_upload->deleteOriginalFile()->upload($data[$i]);
         }
 
         for ($i=0; $i < count($result); $i++) { 
@@ -196,7 +196,7 @@ class ImageUploadTest extends TestCase
         $data = $request->file('filename');
         $result = [];
         for ($i=0; $i < count($data) ; $i++) { 
-            $result[] = $this->mocked_upload->setPath($this->directory)->uploadRequestFile($data[$i]);
+            $result[] = $this->mocked_upload->uploadRequestFile($data[$i]);
         }
 
         for ($i=0; $i < count($result); $i++) { 
