@@ -1,8 +1,8 @@
 <?php
 
-namespace Baaane\ImageUploader\Core;
+namespace Baaane\ImageOptimizer\Core;
 
-use Baaane\ImageUploader\Exceptions\UploadHandlerException;
+use Baaane\ImageOptimizer\Exceptions\UploadHandlerException;
 
 class Upload
 {

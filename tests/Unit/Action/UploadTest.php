@@ -1,7 +1,7 @@
 <?php
 
 use Tests\TestCase;
-use Baaane\ImageUploader\Core\Upload;
+use Baaane\ImageOptimizer\Core\Upload;
 
 class UploadTest extends TestCase
 {	

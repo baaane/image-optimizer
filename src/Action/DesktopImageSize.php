@@ -1,8 +1,8 @@
 <?php
 
-namespace Baaane\ImageUploader\Action;
+namespace Baaane\ImageOptimizer\Action;
 
-use Baaane\ImageUploader\Action\BaseAction;
+use Baaane\ImageOptimizer\Action\BaseAction;
 
 class DesktopImageSize extends BaseAction
 {

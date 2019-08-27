@@ -1,6 +1,6 @@
 <?php
 
-namespace Baaane\ImageUploader\Builder;
+namespace Baaane\ImageOptimizer\Builder;
 
 class ReflectionClassBuilder
 {

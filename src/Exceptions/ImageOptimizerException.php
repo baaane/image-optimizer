@@ -1,8 +1,8 @@
 <?php
 
-namespace Baaane\ImageUploader\Exceptions;
+namespace Baaane\ImageOptimizer\Exceptions;
 
-class ImageUploaderException extends \Exception
+class ImageOptimizerException extends \Exception
 {
     public function __construct($type)
     {

@@ -6,6 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Baaane\\ImageUploader\\Tests\\' => array($baseDir . '/tests'),
-    'Baaane\\ImageUploader\\' => array($baseDir . '/src'),
+    'Baaane\\ImageOptimizer\\Tests\\' => array($baseDir . '/tests'),
+    'Baaane\\ImageOptimizer\\' => array($baseDir . '/src'),
 );

@@ -1,6 +1,6 @@
 <?php
 
-namespace Baaane\ImageUploader\Exceptions;
+namespace Baaane\ImageOptimizer\Exceptions;
 
 class UploadHandlerException extends \Exception
 {

@@ -1,21 +1,21 @@
 <?php
 
-namespace Baaane\ImageUploader\Action;
+namespace Baaane\ImageOptimizer\Action;
 
 use Exception;
 use Illuminate\Http\Request;
-use Baaane\ImageUploader\Core\Upload;
+use Baaane\ImageOptimizer\Core\Upload;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
-use Baaane\ImageUploader\Action\MobileImageSize;
-use Baaane\ImageUploader\Action\DesktopImageSize;
-use Baaane\ImageUploader\Action\ThumbnailImageSize;
+use Baaane\ImageOptimizer\Action\MobileImageSize;
+use Baaane\ImageOptimizer\Action\DesktopImageSize;
+use Baaane\ImageOptimizer\Action\ThumbnailImageSize;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Baaane\ImageUploader\Builder\ReflectionClassBuilder;
-use Baaane\ImageUploader\Exceptions\ImageUploaderException;
-use Baaane\ImageUploader\Exceptions\InvalidImageTypeException;
+use Baaane\ImageOptimizer\Builder\ReflectionClassBuilder;
+use Baaane\ImageOptimizer\Exceptions\ImageOptimizerException;
+use Baaane\ImageOptimizer\Exceptions\InvalidImageTypeException;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
-class ImageUploader
+class ImageOptimizer
 {
 	/**
 	 * Different class sizes
@@ -79,11 +79,11 @@ class ImageUploader
 	public function upload(array $data)
 	{	
 		if($data['error'] > 0 ){
-			throw new ImageUploaderException($data['error']);
+			throw new ImageOptimizerException($data['error']);
 		}
 
 		if(!isset($data['error']) ){
-			throw ImageUploaderException::noErrorKey();
+			throw ImageOptimizerException::noErrorKey();
 		}
 
 		try {

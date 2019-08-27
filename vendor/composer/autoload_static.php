@@ -4,50 +4,51 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0de119f297f3c56f754450bddd10c78d
+class ComposerStaticInit330950c5025b217c5dd5e9de512ed562
 {
     public static $prefixLengthsPsr4 = array (
         'B' => 
         array (
-            'Baaane\\ImageUploader\\Tests\\' => 27,
-            'Baaane\\ImageUploader\\' => 21,
+            'Baaane\\ImageOptimizer\\Tests\\' => 28,
+            'Baaane\\ImageOptimizer\\' => 22,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Baaane\\ImageUploader\\Tests\\' => 
+        'Baaane\\ImageOptimizer\\Tests\\' => 
         array (
             0 => __DIR__ . '/../..' . '/tests',
         ),
-        'Baaane\\ImageUploader\\' => 
+        'Baaane\\ImageOptimizer\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
     );
 
     public static $classMap = array (
-        'Baaane\\ImageUploader\\Action\\BaseAction' => __DIR__ . '/../..' . '/src/Action/BaseAction.php',
-        'Baaane\\ImageUploader\\Action\\DesktopImageSize' => __DIR__ . '/../..' . '/src/Action/DesktopImageSize.php',
-        'Baaane\\ImageUploader\\Action\\ImageUploader' => __DIR__ . '/../..' . '/src/Action/ImageUploader.php',
-        'Baaane\\ImageUploader\\Action\\MobileImageSize' => __DIR__ . '/../..' . '/src/Action/MobileImageSize.php',
-        'Baaane\\ImageUploader\\Action\\ThumbnailImageSize' => __DIR__ . '/../..' . '/src/Action/ThumbnailImageSize.php',
-        'Baaane\\ImageUploader\\Builder\\ReflectionClassBuilder' => __DIR__ . '/../..' . '/src/Builder/ReflectionClassBuilder.php',
-        'Baaane\\ImageUploader\\Core\\Upload' => __DIR__ . '/../..' . '/src/Core/Upload.php',
-        'Baaane\\ImageUploader\\Domains\\ImageGif' => __DIR__ . '/../..' . '/src/Domains/ImageGif.php',
-        'Baaane\\ImageUploader\\Domains\\ImageJpeg' => __DIR__ . '/../..' . '/src/Domains/ImageJpeg.php',
-        'Baaane\\ImageUploader\\Domains\\ImagePng' => __DIR__ . '/../..' . '/src/Domains/ImagePng.php',
-        'Baaane\\ImageUploader\\Exceptions\\ImageUploaderException' => __DIR__ . '/../..' . '/src/Exceptions/ImageUploaderException.php',
-        'Baaane\\ImageUploader\\Exceptions\\InvalidImageTypeException' => __DIR__ . '/../..' . '/src/Exceptions/InvalidImageTypeException.php',
-        'Baaane\\ImageUploader\\Exceptions\\UploadHandlerException' => __DIR__ . '/../..' . '/src/Exceptions/UploadHandlerException.php',
-        'Baaane\\ImageUploader\\Traits\\ImageTrait' => __DIR__ . '/../..' . '/src/Traits/ImageTrait.php',
+        'Baaane\\ImageOptimizer\\Action\\BaseAction' => __DIR__ . '/../..' . '/src/Action/BaseAction.php',
+        'Baaane\\ImageOptimizer\\Action\\DesktopImageSize' => __DIR__ . '/../..' . '/src/Action/DesktopImageSize.php',
+        'Baaane\\ImageOptimizer\\Action\\ImageOptimizer' => __DIR__ . '/../..' . '/src/Action/ImageOptimizer.php',
+        'Baaane\\ImageOptimizer\\Action\\MobileImageSize' => __DIR__ . '/../..' . '/src/Action/MobileImageSize.php',
+        'Baaane\\ImageOptimizer\\Action\\ThumbnailImageSize' => __DIR__ . '/../..' . '/src/Action/ThumbnailImageSize.php',
+        'Baaane\\ImageOptimizer\\Builder\\ReflectionClassBuilder' => __DIR__ . '/../..' . '/src/Builder/ReflectionClassBuilder.php',
+        'Baaane\\ImageOptimizer\\Core\\Upload' => __DIR__ . '/../..' . '/src/Core/Upload.php',
+        'Baaane\\ImageOptimizer\\Domains\\BaseImageAbstract' => __DIR__ . '/../..' . '/src/Domains/BaseImageAbstract.php',
+        'Baaane\\ImageOptimizer\\Domains\\ImageGif' => __DIR__ . '/../..' . '/src/Domains/ImageGif.php',
+        'Baaane\\ImageOptimizer\\Domains\\ImageJpeg' => __DIR__ . '/../..' . '/src/Domains/ImageJpeg.php',
+        'Baaane\\ImageOptimizer\\Domains\\ImagePng' => __DIR__ . '/../..' . '/src/Domains/ImagePng.php',
+        'Baaane\\ImageOptimizer\\Exceptions\\ImageOptimizerException' => __DIR__ . '/../..' . '/src/Exceptions/ImageOptimizerException.php',
+        'Baaane\\ImageOptimizer\\Exceptions\\InvalidImageTypeException' => __DIR__ . '/../..' . '/src/Exceptions/InvalidImageTypeException.php',
+        'Baaane\\ImageOptimizer\\Exceptions\\UploadHandlerException' => __DIR__ . '/../..' . '/src/Exceptions/UploadHandlerException.php',
+        'Baaane\\ImageOptimizer\\Traits\\ImageTrait' => __DIR__ . '/../..' . '/src/Traits/ImageTrait.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0de119f297f3c56f754450bddd10c78d::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0de119f297f3c56f754450bddd10c78d::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit0de119f297f3c56f754450bddd10c78d::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit330950c5025b217c5dd5e9de512ed562::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit330950c5025b217c5dd5e9de512ed562::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit330950c5025b217c5dd5e9de512ed562::$classMap;
 
         }, null, ClassLoader::class);
     }

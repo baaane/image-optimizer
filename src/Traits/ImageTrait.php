@@ -1,11 +1,11 @@
 <?php
 
-namespace Baaane\ImageUploader\Traits;
+namespace Baaane\ImageOptimizer\Traits;
 
-use Baaane\ImageUploader\Domains\ImageJpeg;
-use Baaane\ImageUploader\Domains\ImagePng;
-use Baaane\ImageUploader\Domains\ImageGif;
-use Baaane\ImageUploader\Builder\ReflectionClassBuilder;
+use Baaane\ImageOptimizer\Domains\ImageJpeg;
+use Baaane\ImageOptimizer\Domains\ImagePng;
+use Baaane\ImageOptimizer\Domains\ImageGif;
+use Baaane\ImageOptimizer\Builder\ReflectionClassBuilder;
 
 trait ImageTrait
 {

@@ -1,6 +1,6 @@
 {
-    "name": "baaaaane/image-uploader",
-    "description": "Image uploader",
+    "name": "baaaaane/image-optimizer",
+    "description": "Image optimizer",
     "type": "Library",
     "license": "MIT",
     "authors": [
@@ -21,12 +21,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Baaane\\ImageUploader\\": "src"
+            "Baaane\\ImageOptimizer\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Baaane\\ImageUploader\\Tests\\": "tests"
+            "Baaane\\ImageOptimizer\\Tests\\": "tests"
         }
     },
     "minimum-stability": "dev",

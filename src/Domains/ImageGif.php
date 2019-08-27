@@ -1,8 +1,8 @@
 <?php
 
-namespace Baaane\ImageUploader\Domains;
+namespace Baaane\ImageOptimizer\Domains;
 
-use Baaane\ImageUploader\Domains\BaseImageAbstract;
+use Baaane\ImageOptimizer\Domains\BaseImageAbstract;
 
 class ImageGif extends BaseImageAbstract
 {

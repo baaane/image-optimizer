@@ -2,7 +2,7 @@
 
 use Tests\TestCase;
 use Illuminate\Http\Request;
-use Baaane\ImageUploader\Action\ImageUploader;
+use Baaane\ImageOptimizer\Action\ImageOptimizer;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ImageUploadTest extends TestCase
@@ -38,7 +38,7 @@ class ImageUploadTest extends TestCase
             ]
         ];
 
-	    $this->mocked_upload = new ImageUploader($this->directory);
+	    $this->mocked_upload = new ImageOptimizer($this->directory);
     }
 
     /**

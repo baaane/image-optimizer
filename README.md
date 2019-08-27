@@ -57,7 +57,7 @@ $size = [
 ];
 ```
 
-#### For multiple uploads, use this line of code for re-arrange the array before pass it to imageUploader->upload():
+#### For multiple uploads, use this line of code for re-arrange the array before pass it to imageOptimizer->upload():
 ```php
 $data = $imageOptimizer->reArray($data_merge);
 ```

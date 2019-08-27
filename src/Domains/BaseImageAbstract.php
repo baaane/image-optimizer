@@ -1,6 +1,6 @@
 <?php
 
-namespace Baaane\ImageUploader\Domains;
+namespace Baaane\ImageOptimizer\Domains;
 
 abstract class BaseImageAbstract
 {
