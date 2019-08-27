@@ -1,19 +1,19 @@
-# Image Uploader
+# Image Optimizer
 This package can generate different size of optimized images (Thumbnail-Mobile-Desktop). Here's how you can use it:
 
 ```php
-use Baaane\ImageUploader\Action\ImageUploader;
+use Baaane\ImageOptimizer\Action\ImageOptimizer;
 
-$imageUploader = new ImageUploader();
+$imageOptimizer = new ImageOptimizer();
 
-$imageUploader->upload($_FILES['filename']);
+$imageOptimizer->upload($_FILES['filename']);
 ```
 
 ## Installation
 You can install the package via github or composer
 
 ```php
-git clone https://github.com/baaane/image-uploader.git
+git clone https://github.com/baaane/image-optimizer.git
 
 composer require baaaaane/image-uploader
 ```
@@ -32,12 +32,12 @@ The filenames can be randomized or customized by the user.
 
 #### UploadFile from Laravel's request. (OPTIONAL)
 ```php
-$imageUploader->uploadRequestFile($request->file('filename'));
+$imageOptimizer->uploadRequestFile($request->file('filename'));
 ```
 
 #### Set File Path - use it before upload() (OPTIONAL)
 ```php
-$imageUploader->setPath()->upload();
+$imageOptimizer->setPath()->upload();
 ```
 
 #### Customizable Name (OPTIONAL)
@@ -50,7 +50,7 @@ $new_name = [
 #### Customizable Size (FORMAT: WIDTH, HEIGHT) (OPTIONAL)
 ```php
 $size = [
-    'size' => $imageUploader->setThumbnailSize(width,height)
+    'size' => $imageOptimizer->setThumbnailSize(width,height)
                             ->setMobileSize(width,height)
                             ->setDesktopSize(width,height)
                             ->get(), 
@@ -59,12 +59,12 @@ $size = [
 
 #### For multiple uploads, use this line of code for re-arrange the array before pass it to imageUploader->upload():
 ```php
-$data = $imageUploader->reArray($data_merge);
+$data = $imageOptimizer->reArray($data_merge);
 ```
 
 #### Delete Original File - use it before upload() (OPTIONAL)
 ```php
-$imageUploader->deleteOriginalFile()->upload();
+$imageOptimizer->deleteOriginalFile()->upload();
 ```
 
 #### Parameter for upload should be an array. It should look like this:
@@ -113,7 +113,7 @@ $new_name = [
 
 // OPTIONAL PARAMETER: If the input post is string, convert it to array
 $new_size = [
-    'new_size' => $imageUploader->setThumbnailSize(200,200)
+    'new_size' => $imageOptimizer->setThumbnailSize(200,200)
                                 ->setMobileSize(691,961)
                                 ->setDesktopSize(1920,1080)
                                 ->get(), 
@@ -125,8 +125,8 @@ $data = array_merge($_FILES['filename'], $new_name, $new_size);
 // OPTIONAL PARAMETER: desired path of uploaded files
 $path = __DIR__. '/_files';
 
-$imageUploader = new ImageUploader();
-$imageUploader->setPath($path)->upload($data);
+$imageOptimizer = new ImageOptimizer();
+$imageOptimizer->setPath($path)->upload($data);
 ```
 
 ### Sample Multiple Upload
@@ -164,11 +164,11 @@ $new_name = [
 // OPTIONAL PARAMETER: If the input post is string, convert it to array
 $size = [ 
     'new_size' => [
-        $imageUploader->setThumbnailSize(200,200)
+        $imageOptimizer->setThumbnailSize(200,200)
                         ->setMobileSize(691,961)
                         ->setDesktopSize(800,750)
                         ->get(),
-        $imageUploader->setThumbnailSize()
+        $imageOptimizer->setThumbnailSize()
                         ->setMobileSize(345,789)
                         ->setDesktopSize(0,0)
                         ->get(),
@@ -179,13 +179,13 @@ $size = [
 $data_merge = array_merge($_FILES['filename'], $new_name, $new_size);
 
 // Re-arrange the merge data array
-$data = $imageUploader->reArray($data_merge);
+$data = $imageOptimizer->reArray($data_merge);
 
 // OPTIONAL PARAMETER: desired path of uploaded files
 $path = __DIR__. '/_files';
 
-$imageUploader = new ImageUploader();
-$imageUploader->setPath($path)->upload($data);
+$imageOptimizer = new ImageOptimizer();
+$imageOptimizer->setPath($path)->upload($data);
 ````
 
 #### Sample retrieve files after uploading. Return an array upon success.
