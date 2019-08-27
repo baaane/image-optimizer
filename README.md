@@ -15,7 +15,7 @@ You can install the package via github or composer
 ```php
 git clone https://github.com/baaane/image-optimizer.git
 
-composer require baaaaane/image-uploader
+composer require baaaaane/image-optimizer
 ```
 ## Tools
 This package is required in this library to optimize the image:
