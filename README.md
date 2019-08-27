@@ -4,7 +4,7 @@ This package can generate different size of optimized images (Thumbnail-Mobile-D
 ```php
 use Baaane\ImageOptimizer\Action\ImageOptimizer;
 
-$imageOptimizer = new ImageOptimizer();
+$imageOptimizer = new ImageOptimizer($defaultPath);
 
 $imageOptimizer->upload($_FILES['filename']);
 ```
@@ -37,7 +37,7 @@ $imageOptimizer->uploadRequestFile($request->file('filename'));
 
 #### Set File Path - use it before upload() (OPTIONAL)
 ```php
-$imageOptimizer->setPath()->upload();
+$imageOptimizer->setPath($optionalPath)->upload();
 ```
 
 #### Customizable Name (OPTIONAL)
@@ -125,8 +125,8 @@ $data = array_merge($_FILES['filename'], $new_name, $new_size);
 // OPTIONAL PARAMETER: desired path of uploaded files
 $path = __DIR__. '/_files';
 
-$imageOptimizer = new ImageOptimizer();
-$imageOptimizer->setPath($path)->upload($data);
+$imageOptimizer = new ImageOptimizer($defaultPath);
+$imageOptimizer->setPath($optionalPath)->upload($data);
 ```
 
 ### Sample Multiple Upload
@@ -184,8 +184,8 @@ $data = $imageOptimizer->reArray($data_merge);
 // OPTIONAL PARAMETER: desired path of uploaded files
 $path = __DIR__. '/_files';
 
-$imageOptimizer = new ImageOptimizer();
-$imageOptimizer->setPath($path)->upload($data);
+$imageOptimizer = new ImageOptimizer(defaultPath);
+$imageOptimizer->setPath($optionalPath)->upload($data);
 ````
 
 #### Sample retrieve files after uploading. Return an array upon success.
